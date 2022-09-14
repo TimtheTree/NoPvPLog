@@ -1,0 +1,6 @@
+name: NoPvPLog
+version: '${project.version}'
+main: de.ttt.nopvplog.Nopvplog
+api-version: 1.19
+authors: [ Tim_the_Tree ]
+description: Prevent players from logging out while PvPing
