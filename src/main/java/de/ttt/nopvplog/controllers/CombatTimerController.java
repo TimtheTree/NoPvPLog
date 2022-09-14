@@ -69,9 +69,15 @@ public class CombatTimerController {
     public void updateEntry(EntityDamageByEntityEvent event) {
         if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
             UUID playerId = event.getEntity().getUniqueId();
-            if (getCombatTimer(playerId) != null) {
-                getCombatTimer(playerId).update(event);
-            } else addEntry(event);
+
+            CombatTimer timer = getCombatTimer(playerId);
+
+            if (timer == null) {
+                addEntry(event);
+                timer = getCombatTimer(playerId);
+            }
+
+            timer.update(event);
         }
     }
 
