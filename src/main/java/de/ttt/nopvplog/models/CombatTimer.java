@@ -1,17 +1,12 @@
 package de.ttt.nopvplog.models;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.UUID;
 
 public class CombatTimer {
-
-    static long timerDuration;
-
-    static long minimumDeactivationDistance;
 
     private long lastDamage;
 
@@ -38,7 +33,7 @@ public class CombatTimer {
         return (this.lastDamage - System.currentTimeMillis()) / 1000;
     }
 
-    public boolean isOutOfCombat() {
+    public boolean isOutOfCombat(long timerDuration, long minimumDeactivationDistance) {
         return timePassed() > timerDuration && playerEnemyDistance() > minimumDeactivationDistance;
     }
 

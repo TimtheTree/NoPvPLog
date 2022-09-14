@@ -2,31 +2,52 @@ package de.ttt.nopvplog.controller;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.models.CombatTimer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class CombatTimerController {
-    private HashMap<UUID, CombatTimer> combatTimerHashMap;
 
-    public CombatTimerController() {
+    private long timerDuration;
+
+    private long minimumDeactivationDistance;
+    private HashMap<UUID, CombatTimer> combatTimerHashMap;
+    private NoPvPLogTemplate template;
+
+    public CombatTimerController(NoPvPLogTemplate template) {
         this.combatTimerHashMap = new HashMap<>();
+        this.template = template;
+        addAllPlayers();
+
+
+        this.timerDuration = template.getConfig().getLong("CombatTimerDuration");
+        this.minimumDeactivationDistance = template.getConfig().getLong("MinimumDeactivationDistance");
     }
 
     public void addEntry(PlayerJoinEvent event) {
-        UUID playerId = event.getPlayer().getUniqueId();
-        this.combatTimerHashMap.put(playerId, new CombatTimer(playerId));
+        addEntry(event.getPlayer());
     }
 
     public void addEntry(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER) {
-            UUID playerId = event.getEntity().getUniqueId();
-            this.combatTimerHashMap.put(playerId, new CombatTimer(playerId));
+        if (event.getEntity() instanceof Player player) {
+            addEntry(player);
+        }
+    }
+
+    public void addEntry(Player player) {
+        UUID playerId = player.getUniqueId();
+        this.combatTimerHashMap.put(playerId, new CombatTimer(playerId));
+    }
+
+    public void addAllPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            addEntry(player);
         }
     }
 
@@ -46,5 +67,14 @@ public class CombatTimerController {
                 getCombatTimer(playerId).update(event);
             } else addEntry(event);
         }
+    }
+
+    private boolean detectCombat(Player player) {
+
+        CombatTimer combatTimer = getCombatTimer(player.getUniqueId());
+
+        if (combatTimer == null) addEntry(player);
+        combatTimer = getCombatTimer(player.getUniqueId());
+        return !combatTimer.isOutOfCombat(this.timerDuration,this.minimumDeactivationDistance);
     }
 }
