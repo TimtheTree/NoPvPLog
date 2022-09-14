@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import javax.xml.transform.Templates;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -18,20 +19,14 @@ public class CombatTimerController {
 
     private final long minimumDeactivationDistance;
     private final HashMap<UUID, CombatTimer> combatTimerHashMap;
-    private final NoPvPLogTemplate template;
+
 
     public CombatTimerController(NoPvPLogTemplate template) {
         this.combatTimerHashMap = new HashMap<>();
-        this.template = template;
         addAllPlayers();
-
 
         this.timerDuration = template.getConfig().getLong("CombatTimerDuration");
         this.minimumDeactivationDistance = template.getConfig().getLong("MinimumDeactivationDistance");
-    }
-
-    public NoPvPLogTemplate getTemplate() {
-        return template;
     }
 
     public long getTimerDuration() {
