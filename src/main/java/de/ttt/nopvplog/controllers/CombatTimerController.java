@@ -30,6 +30,18 @@ public class CombatTimerController {
         this.minimumDeactivationDistance = template.getConfig().getLong("MinimumDeactivationDistance");
     }
 
+    public NoPvPLogTemplate getTemplate() {
+        return template;
+    }
+
+    public long getTimerDuration() {
+        return timerDuration;
+    }
+
+    public long getMinimumDeactivationDistance() {
+        return minimumDeactivationDistance;
+    }
+
     public void addEntry(PlayerJoinEvent event) {
         addEntry(event.getPlayer());
     }
