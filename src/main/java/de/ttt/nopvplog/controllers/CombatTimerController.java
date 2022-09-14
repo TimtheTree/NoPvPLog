@@ -14,11 +14,11 @@ import java.util.UUID;
 
 public class CombatTimerController {
 
-    private long timerDuration;
+    private final long timerDuration;
 
-    private long minimumDeactivationDistance;
-    private HashMap<UUID, CombatTimer> combatTimerHashMap;
-    private NoPvPLogTemplate template;
+    private final long minimumDeactivationDistance;
+    private final HashMap<UUID, CombatTimer> combatTimerHashMap;
+    private final NoPvPLogTemplate template;
 
     public CombatTimerController(NoPvPLogTemplate template) {
         this.combatTimerHashMap = new HashMap<>();
