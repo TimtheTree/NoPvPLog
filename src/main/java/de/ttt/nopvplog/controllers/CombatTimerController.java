@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.xml.transform.Templates;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -82,6 +81,6 @@ public class CombatTimerController {
 
         if (combatTimer == null) addEntry(player);
         combatTimer = getCombatTimer(player.getUniqueId());
-        return !combatTimer.isOutOfCombat(this.timerDuration,this.minimumDeactivationDistance);
+        return !combatTimer.isOutOfCombat(this.timerDuration, this.minimumDeactivationDistance);
     }
 }
