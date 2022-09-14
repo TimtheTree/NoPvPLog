@@ -1,4 +1,4 @@
-package de.ttt.nopvplog.controller;
+package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.models.CombatTimer;

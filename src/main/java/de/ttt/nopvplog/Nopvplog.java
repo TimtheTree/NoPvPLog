@@ -1,6 +1,6 @@
 package de.ttt.nopvplog;
 
-import de.ttt.nopvplog.controller.CombatTimerController;
+import de.ttt.nopvplog.controllers.CombatTimerController;
 import de.ttt.nopvplog.listeners.CombatDetector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
