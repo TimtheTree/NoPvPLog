@@ -10,12 +10,18 @@ import java.io.File;
 public final class Nopvplog extends NoPvPLogTemplate {
 
     private CombatTimerController cTController;
+
     @Override
     public void onEnable() {
+        //create config file
         makeFiles();
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Enabled NoPvPLog");
+
+        //create CTController for management and passing onto other dependants
         this.cTController = new CombatTimerController(this);
+        //register Listened for Combat detection
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
+
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Enabled NoPvPLog");
     }
 
     @Override
