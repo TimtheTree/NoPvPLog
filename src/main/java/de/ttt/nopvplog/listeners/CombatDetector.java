@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class CombatDetector implements Listener {
 
-    private NoPvPLogTemplate template;
+    private final NoPvPLogTemplate template;
 
     public CombatDetector(NoPvPLogTemplate template) {
         this.template = template;
