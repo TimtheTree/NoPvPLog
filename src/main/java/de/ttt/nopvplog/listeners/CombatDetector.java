@@ -18,6 +18,6 @@ public class CombatDetector implements Listener {
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
             template.getCTController().updateEntry(event);
-        }
+        } //TODO If player is damaged by anything other than a different player
     }
 }
