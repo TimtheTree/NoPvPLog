@@ -2,6 +2,7 @@ package de.ttt.nopvplog.models;
 
 import de.ttt.nopvplog.controllers.DeathCrateController;
 import de.ttt.nopvplog.exceptions.DeathCrateCreationException;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -22,10 +23,8 @@ public class DeathCrate {
 
     private final DeathCrateController controller;
 
-    public DeathCrate(Inventory mainInv, Inventory equipInv, UUID owner, DeathCrateController controller) {
+    public DeathCrate(UUID owner, DeathCrateController controller) {
 
-        this.mainInv = mainInv;
-        this.equipInv = equipInv;
         this.owner = owner;
         this.controller = controller;
 
@@ -59,9 +58,16 @@ public class DeathCrate {
     /**
      * Fills both crates of a player who just combat logged
      *
-     * @param player the player to fill the crates from
+     * @param playerId the Id of the player to fill the crates from
      */
-    public void fillCrates(Player player) {
+    public void fillCrates(UUID playerId) {
+
+        Player player = Bukkit.getServer().getPlayer(playerId);
+
+        if(player == null) {
+            throw new DeathCrateCreationException("Could not find player");
+        }
+
         fillMain(player);
         fillEquip(player);
     }

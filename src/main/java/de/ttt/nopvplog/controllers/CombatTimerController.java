@@ -37,27 +37,26 @@ public class CombatTimerController {
     }
 
     public void addEntry(PlayerJoinEvent event) {
-        addEntry(event.getPlayer());
+        addEntry(event.getPlayer().getUniqueId());
     }
 
     public void addEntry(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player player) {
-            addEntry(player);
+            addEntry(player.getUniqueId());
         }
     }
 
-    public void addEntry(Player player) {
-        UUID playerId = player.getUniqueId();
+    public void addEntry(UUID playerId) {
         this.combatTimerHashMap.put(playerId, new CombatTimer(playerId));
     }
 
     public void addAllPlayers() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            addEntry(player);
+            addEntry(player.getUniqueId());
         }
     }
 
-    public @Nullable CombatTimer getCombatTimer(UUID playerId) {
+    private @Nullable CombatTimer getCombatTimer(UUID playerId) {
         return this.combatTimerHashMap.getOrDefault(playerId, null);
         //TODO potenzielle Gefahrenstelle
     }
@@ -81,12 +80,12 @@ public class CombatTimerController {
         }
     }
 
-    private boolean detectCombat(Player player) {
+    public boolean detectCombat(UUID playerId) {
 
-        CombatTimer combatTimer = getCombatTimer(player.getUniqueId());
+        CombatTimer combatTimer = getCombatTimer(playerId);
 
-        if (combatTimer == null) addEntry(player);
-        combatTimer = getCombatTimer(player.getUniqueId());
+        if (combatTimer == null) addEntry(playerId);
+        combatTimer = getCombatTimer(playerId);
         return !combatTimer.isOutOfCombat(this.timerDuration, this.minimumDeactivationDistance);
     }
 }
