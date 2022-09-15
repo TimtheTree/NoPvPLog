@@ -1,3 +1,5 @@
 CombatTimerDuration: 180
 MinimumDeactivationDistance: 50
   #Distance to an Enemy
+
+DeathCrateType: BARREL
