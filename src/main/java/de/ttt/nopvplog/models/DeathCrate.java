@@ -2,6 +2,7 @@ package de.ttt.nopvplog.models;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -24,7 +25,8 @@ public class DeathCrate {
      * @param player the player to fill the crates from
      */
     public void fillCrates(Player player) {
-
+        fillMain(player);
+        fillEquip(player);
     }
 
     /**
@@ -32,7 +34,7 @@ public class DeathCrate {
      * @param player
      */
     private void fillMain(Player player) {
-
+        mainInv.setContents(player.getInventory().getStorageContents());
     }
 
     /**
@@ -41,5 +43,24 @@ public class DeathCrate {
      */
     private void fillEquip(Player player) {
 
+        ItemStack[] armorContents = player.getInventory().getArmorContents();
+        ItemStack[] hotbarContents = player.getInventory().getExtraContents();
+
+        int length = armorContents.length + hotbarContents.length;
+        ItemStack[] equipContents = new ItemStack[length];
+
+        int i = 0;
+
+        for(ItemStack item : armorContents) {
+            equipContents[i] = item;
+            i++;
+        }
+
+        for(ItemStack item : hotbarContents) {
+            equipContents[i] = item;
+            i++;
+        }
+
+        equipInv.setContents(equipContents);
     }
 }

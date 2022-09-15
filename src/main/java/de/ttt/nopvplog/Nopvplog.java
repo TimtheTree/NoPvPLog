@@ -49,6 +49,6 @@ public final class Nopvplog extends NoPvPLogTemplate {
 
     @Override
     public DeathCrateController getDeathCrateController() {
-        return null;
+        return this.deathCrateController;
     }
 }
