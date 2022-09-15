@@ -36,16 +36,19 @@ public class CombatDetector implements Listener {
                                 event.getCause(), new HashMap<>(), new HashMap<>(), event.isCritical())
                 );
             }
+        } else {
+            template.getDTController().updateEntry(event);
         }
     }
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
 
-//        if (event.getEntityType() == EntityType.PLAYER
-//                && (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK && event.get)) {
-//            template.getDTController().updateEntry(event);
-//        } //TODO If player is damaged by anything other than a different player
+        if(!(event.getEntity() instanceof Player)) return;
+
+          if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+              template.getDTController().updateEntry(event);
+          }
     }
 
 }
