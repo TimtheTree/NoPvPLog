@@ -2,9 +2,7 @@ package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.models.DamageTimer;
-import de.ttt.nopvplog.models.Timer;
 import org.bukkit.entity.EntityType;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.UUID;
@@ -20,7 +18,7 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
         this.timerHashMap.put(playerId, new DamageTimer(playerId));
     }
 
-    public boolean detectDamage(UUID playerId) {
+    public boolean detectCombat(UUID playerId) {
 
         DamageTimer damageTimer = (DamageTimer) this.getTimer(playerId);
 
