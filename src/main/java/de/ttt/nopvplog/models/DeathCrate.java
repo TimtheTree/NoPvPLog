@@ -15,13 +15,10 @@ import java.util.UUID;
 
 public class DeathCrate {
 
-    private Inventory mainInv;
-
-    private Inventory equipInv;
-
     private final UUID owner;
-
     private final DeathCrateController controller;
+    private Inventory mainInv;
+    private Inventory equipInv;
 
     public DeathCrate(UUID owner, DeathCrateController controller) {
 
@@ -64,7 +61,7 @@ public class DeathCrate {
 
         Player player = Bukkit.getServer().getPlayer(playerId);
 
-        if(player == null) {
+        if (player == null) {
             throw new DeathCrateCreationException("Could not find player");
         }
 

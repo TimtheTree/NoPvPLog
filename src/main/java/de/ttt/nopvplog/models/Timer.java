@@ -6,9 +6,8 @@ import java.util.UUID;
 
 public abstract class Timer<T extends EntityDamageEvent> {
 
-    protected long lastDamage;
-
     protected final UUID playerReference;
+    protected long lastDamage;
 
     protected Timer(UUID playerReference) {
         this.playerReference = playerReference;

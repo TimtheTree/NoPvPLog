@@ -1,11 +1,8 @@
 package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
-import de.ttt.nopvplog.models.CombatTimerPvp;
-import de.ttt.nopvplog.models.DamageTimer;
 import de.ttt.nopvplog.models.Timer;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;

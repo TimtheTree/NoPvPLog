@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class PvPLogDetector implements Listener {
 
-    private DeathCrateController crateController;
-    private CombatTimerController combatTimerController;
+    private final DeathCrateController crateController;
+    private final CombatTimerController combatTimerController;
     private DamageTimerController damageTimerController;
 
     public PvPLogDetector(DeathCrateController crateController, CombatTimerController combatTimerController) {
@@ -23,7 +23,7 @@ public class PvPLogDetector implements Listener {
 
     }
 
-    private boolean playerIsInCombat(UUID playerId){
+    private boolean playerIsInCombat(UUID playerId) {
 
         return this.combatTimerController.detectCombat(playerId) || this.damageTimerController.detectCombat(playerId);
 

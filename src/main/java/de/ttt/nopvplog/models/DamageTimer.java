@@ -4,7 +4,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.UUID;
 
-public class DamageTimer extends Timer<EntityDamageEvent>{
+public class DamageTimer extends Timer<EntityDamageEvent> {
 
     public DamageTimer(UUID playerReference) {
         super(playerReference);

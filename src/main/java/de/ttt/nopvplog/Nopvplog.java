@@ -4,7 +4,6 @@ import de.ttt.nopvplog.controllers.CombatTimerController;
 import de.ttt.nopvplog.controllers.DamageTimerController;
 import de.ttt.nopvplog.controllers.DeathCrateController;
 import de.ttt.nopvplog.listeners.CombatDetector;
-import de.ttt.nopvplog.models.DamageTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 

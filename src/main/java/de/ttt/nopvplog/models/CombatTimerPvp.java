@@ -19,8 +19,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
     }
 
     /**
-     *
-     * @param timerDuration The time a player has to wait before being out of combat
+     * @param timerDuration               The time a player has to wait before being out of combat
      * @param minimumDeactivationDistance The distance the player has to be away from their enemy in order to be out of combat
      * @return true if the combat timer is over AND the enemy players distance is greater than the minimum deactivation distance
      */
@@ -30,6 +29,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
     /**
      * Calculates the distance of the player this timer is assigned to from the person who last hit them
+     *
      * @return the distance
      */
     public long playerEnemyDistance() {
@@ -40,6 +40,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
     /**
      * updates this objects last damage time and Enemy who cause the damage
+     *
      * @param event the event to read from
      */
     public void update(EntityDamageByEntityEvent event) {

@@ -73,6 +73,7 @@ public class DeathCrateController {
     /**
      * When executed the players inventory will be put into containers at his location <br>
      * Additionally the players location information will be broadcast to all players on the server
+     *
      * @param loggedOutPlayer
      */
     public void executePvPLogLogic(Player loggedOutPlayer) {
