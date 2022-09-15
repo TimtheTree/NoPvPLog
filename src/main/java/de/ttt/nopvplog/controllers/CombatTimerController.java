@@ -12,22 +12,18 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class CombatTimerController {
-
-    private final long timerDuration;
+public class CombatTimerController extends TimerController {
 
     private final long minimumDeactivationDistance;
 
     public CombatTimerController(NoPvPLogTemplate template) {
-        this.combatTimerHashMap = new HashMap<>();
-        addAllPlayers();
-
-        this.timerDuration = template.getConfig().getLong("CombatTimerDuration");
-        this.minimumDeactivationDistance = template.getConfig().getLong("MinimumDeactivationDistance");
+        super(template);
+        this.minimumDeactivationDistance = template.getConfig().getLong("MinimumDeactivationDistancePvP");
     }
 
-    public long getTimerDuration() {
-        return timerDuration;
+    @Override
+    public void addEntry(UUID playerId) {
+        this.timerHashMap.put(playerId, new CombatTimerPvp(playerId));
     }
 
     public long getMinimumDeactivationDistance() {
@@ -40,7 +36,7 @@ public class CombatTimerController {
         CombatTimerPvp combatTimer = (CombatTimerPvp) this.getTimer(playerId);
 
         if (combatTimer == null) addEntry(playerId);
-        combatTimer = getCombatTimer(playerId);
+        combatTimer = (CombatTimerPvp) this.getTimer(playerId);
         return !combatTimer.isOutOfCombat(this.timerDuration, this.minimumDeactivationDistance);
     }
 }

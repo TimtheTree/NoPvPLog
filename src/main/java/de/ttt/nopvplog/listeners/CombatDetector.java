@@ -1,10 +1,17 @@
 package de.ttt.nopvplog.listeners;
 
+import com.google.common.base.Function;
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CombatDetector implements Listener {
 
@@ -16,8 +23,31 @@ public class CombatDetector implements Listener {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
+
+        if(!(event.getEntity() instanceof Player)) return;
+
+        if (event.getDamager() instanceof Player) {
             template.getCTController().updateEntry(event);
-        } //TODO If player is damaged by anything other than a different player
+        } else if(event.getDamager() instanceof Projectile projectile){
+
+            if(projectile.getShooter() instanceof Player player) {
+                template.getCTController().updateEntry(
+                        new EntityDamageByEntityEvent(player, event.getEntity(),
+                                event.getCause(), new HashMap<>(), new HashMap<>(), event.isCritical())
+                );
+            }
+        }
     }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent event) {
+
+//        if (event.getEntityType() == EntityType.PLAYER
+//                && (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK && event.get)) {
+//            template.getDTController().updateEntry(event);
+//        } //TODO If player is damaged by anything other than a different player
+    }
+
 }
+
+

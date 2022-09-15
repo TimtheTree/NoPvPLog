@@ -14,19 +14,8 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         super(playerReference);
     }
 
-    public void setLastDamage(long lastDamage) {
-        this.lastDamage = lastDamage;
-    }
-
     public void setEnemyReference(UUID enemyReference) {
         this.enemyReference = enemyReference;
-    }
-
-    /**
-     * @return time passed in seconds
-     */
-    public long timePassed() {
-        return (this.lastDamage - System.currentTimeMillis()) / 1000;
     }
 
     /**
