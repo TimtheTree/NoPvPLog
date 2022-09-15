@@ -2,10 +2,14 @@ package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.models.DamageTimer;
+import de.ttt.nopvplog.models.Timer;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.UUID;
 
-public class DamageTimerController extends TimerController {
+public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
     public DamageTimerController(NoPvPLogTemplate template) {
         super(template);
@@ -24,4 +28,21 @@ public class DamageTimerController extends TimerController {
         damageTimer = (DamageTimer) this.getTimer(playerId);
         return !damageTimer.isOutOfCombat(this.timerDuration, 0);
     }
+
+
+    public void updateEntry(EntityDamageEvent event) {
+        if (event.getEntityType() == EntityType.PLAYER) {
+            UUID playerId = event.getEntity().getUniqueId();
+
+            DamageTimer timer = (DamageTimer) this.getTimer(playerId);
+
+            if (timer == null) {
+                addEntry(playerId);
+                timer = (DamageTimer) this.getTimer(playerId);
+            }
+
+            timer.update(event);
+        }
+    }
+
 }

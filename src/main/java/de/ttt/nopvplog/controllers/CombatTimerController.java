@@ -2,17 +2,13 @@ package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.models.CombatTimerPvp;
-import org.bukkit.Bukkit;
+import de.ttt.nopvplog.models.Timer;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.HashMap;
 import java.util.UUID;
 
-public class CombatTimerController extends TimerController {
+public class CombatTimerController extends TimerController<EntityDamageByEntityEvent> {
 
     private final long minimumDeactivationDistance;
 
@@ -39,4 +35,21 @@ public class CombatTimerController extends TimerController {
         combatTimer = (CombatTimerPvp) this.getTimer(playerId);
         return !combatTimer.isOutOfCombat(this.timerDuration, this.minimumDeactivationDistance);
     }
+
+
+    public void updateEntry(EntityDamageByEntityEvent event) {
+        if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
+            UUID playerId = event.getEntity().getUniqueId();
+
+            Timer timer = getTimer(playerId);
+
+            if (timer == null) {
+                addEntry(event);
+                timer = getTimer(playerId);
+            }
+
+            timer.update(event);
+        }
+    }
+
 }

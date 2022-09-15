@@ -8,13 +8,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public abstract class TimerController {
+public abstract class TimerController<T extends EntityDamageEvent> {
 
     protected final long timerDuration;
     protected final HashMap<UUID, Timer> timerHashMap;
@@ -58,21 +59,7 @@ public abstract class TimerController {
         this.timerHashMap.remove(playerId);
     }
 
-
-    public void updateEntry(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
-            UUID playerId = event.getEntity().getUniqueId();
-
-            Timer timer = getTimer(playerId);
-
-            if (timer == null) {
-                addEntry(event);
-                timer = getTimer(playerId);
-            }
-
-            timer.update(event);
-        }
-    }
+    public abstract void updateEntry(T event);
 
 
 }
