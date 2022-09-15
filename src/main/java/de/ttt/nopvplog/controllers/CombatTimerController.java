@@ -1,7 +1,7 @@
 package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
-import de.ttt.nopvplog.models.CombatTimer;
+import de.ttt.nopvplog.models.CombatTimerPvp;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,8 +17,6 @@ public class CombatTimerController {
     private final long timerDuration;
 
     private final long minimumDeactivationDistance;
-    private final HashMap<UUID, CombatTimer> combatTimerHashMap;
-
 
     public CombatTimerController(NoPvPLogTemplate template) {
         this.combatTimerHashMap = new HashMap<>();
@@ -36,53 +34,10 @@ public class CombatTimerController {
         return minimumDeactivationDistance;
     }
 
-    public void addEntry(PlayerJoinEvent event) {
-        addEntry(event.getPlayer().getUniqueId());
-    }
-
-    public void addEntry(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            addEntry(player.getUniqueId());
-        }
-    }
-
-    public void addEntry(UUID playerId) {
-        this.combatTimerHashMap.put(playerId, new CombatTimer(playerId));
-    }
-
-    public void addAllPlayers() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            addEntry(player.getUniqueId());
-        }
-    }
-
-    private @Nullable CombatTimer getCombatTimer(UUID playerId) {
-        return this.combatTimerHashMap.getOrDefault(playerId, null);
-        //TODO potenzielle Gefahrenstelle
-    }
-
-    public void deleteEntry(UUID playerId) {
-        this.combatTimerHashMap.remove(playerId);
-    }
-
-    public void updateEntry(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
-            UUID playerId = event.getEntity().getUniqueId();
-
-            CombatTimer timer = getCombatTimer(playerId);
-
-            if (timer == null) {
-                addEntry(event);
-                timer = getCombatTimer(playerId);
-            }
-
-            timer.update(event);
-        }
-    }
 
     public boolean detectCombat(UUID playerId) {
 
-        CombatTimer combatTimer = getCombatTimer(playerId);
+        CombatTimerPvp combatTimer = (CombatTimerPvp) this.getTimer(playerId);
 
         if (combatTimer == null) addEntry(playerId);
         combatTimer = getCombatTimer(playerId);

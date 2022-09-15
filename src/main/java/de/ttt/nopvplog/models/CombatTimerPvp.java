@@ -6,16 +6,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.UUID;
 
-public class CombatTimer {
-
-    private long lastDamage;
-
-    private final UUID playerReference;
+public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
     private UUID enemyReference;
 
-    public CombatTimer(UUID playerReference) {
-        this.playerReference = playerReference;
+    public CombatTimerPvp(UUID playerReference) {
+        super(playerReference);
     }
 
     public void setLastDamage(long lastDamage) {

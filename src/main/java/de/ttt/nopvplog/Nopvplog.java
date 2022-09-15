@@ -1,6 +1,7 @@
 package de.ttt.nopvplog;
 
 import de.ttt.nopvplog.controllers.CombatTimerController;
+import de.ttt.nopvplog.controllers.DamageTimerController;
 import de.ttt.nopvplog.controllers.DeathCrateController;
 import de.ttt.nopvplog.listeners.CombatDetector;
 import org.bukkit.Bukkit;
@@ -45,6 +46,11 @@ public final class Nopvplog extends NoPvPLogTemplate {
     @Override
     public CombatTimerController getCTController() {
         return this.cTController;
+    }
+
+    @Override
+    public DamageTimerController getDTController() {
+        return null;
     }
 
     @Override
