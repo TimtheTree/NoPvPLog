@@ -5,10 +5,7 @@ import de.ttt.nopvplog.exceptions.DeathCrateCreationException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Barrel;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Container;
+import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.Inventory;
@@ -42,8 +39,11 @@ public class DeathCrate {
         blockBottom.setType(Material.BARREL);
         blockTop.setType(Material.BARREL);
 
-        this.mainInv = ((Barrel) blockBottom).getInventory();
-        this.equipInv = ((Barrel) blockTop).getInventory();
+        BlockState stateBottom = blockBottom.getState();
+        BlockState stateTop = blockTop.getState();
+
+        this.mainInv = ((Barrel) stateBottom).getInventory();
+        this.equipInv = ((Barrel) stateTop).getInventory();
 
     }
 
