@@ -28,26 +28,26 @@ public class CombatDetector implements Listener {
         if (!(event.getEntity() instanceof Player)) return;
 
         if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
-            //Cover all Damage causes except entity attacks
+            //Cover all Damage causes except entity attacks, update general timer
             template.getDTController().updateEntry(event);
 
         } else if(event instanceof EntityDamageByEntityEvent damageByEntityEvent) {
 
             if (damageByEntityEvent.getDamager() instanceof Player) {
-                //Cover damage by enemy players
+                //Cover damage by enemy players, update combat timer
                 template.getCTController().updateEntry(damageByEntityEvent);
                 //Now covered all except non player entity attacks
             } else if (damageByEntityEvent.getDamager() instanceof Projectile projectile) {
 
                 if (projectile.getShooter() instanceof Player player) {
-                    //Cover players shooting projectiles, all thats left is non player entity attacks
+                    //Cover players shooting projectiles, all thats left is non player entity attacks, update combat timer
                     template.getCTController().updateEntry(
                             new EntityDamageByEntityEvent(player, event.getEntity(),
                                     event.getCause(), new HashMap<>(), new HashMap<>(), damageByEntityEvent.isCritical())
                     );
                 }
             } else {
-                //Cover all non player entity attacks
+                //Cover all non player entity attacks, update the general timer
                 template.getDTController().updateEntry(event);
             }
         }
