@@ -1,8 +1,14 @@
 package de.ttt.nopvplog.models.actionbar;
 
-public abstract class AbstractActionBarMessage implements ActionBarMessage{
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-    protected static final String PLACEHOLDER = "%timer%";
+import java.util.UUID;
+
+public abstract class AbstractActionBarMessage implements ActionBarMessage {
+
+    protected static final String TIME_PLACEHOLDER = "%timer%";
 
     protected final String message;
 
@@ -16,18 +22,22 @@ public abstract class AbstractActionBarMessage implements ActionBarMessage{
     @Override
     public void update() {
 
-        this.renderMessage();
-        this.countDown();
-
     }
 
-    private void countDown() {
-        currentTimer -= 1;
+    @Override
+    public void displayMessage(UUID playerId) {
+
+        Player player = Bukkit.getPlayer(playerId);
+
+        if (player == null) return;
+
+        player.sendActionBar(Component.text().content(this.renderMessage()));
+
     }
 
     private String renderMessage() {
 
-        return message.replaceAll(PLACEHOLDER, String.valueOf(this.currentTimer));
+        return message.replaceAll(TIME_PLACEHOLDER, String.valueOf(this.currentTimer));
 
     }
 
