@@ -30,6 +30,8 @@ public class PvPLogDetector implements Listener {
 
         this.crateController.executePvPLogLogic(event.getPlayer());
 
+        event.getPlayer().getInventory().clear();
+
         event.getPlayer().setHealth(0.0);
 
     }

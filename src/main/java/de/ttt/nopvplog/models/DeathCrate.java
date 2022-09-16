@@ -7,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.*;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -42,8 +41,11 @@ public class DeathCrate {
         BlockState stateBottom = blockBottom.getState();
         BlockState stateTop = blockTop.getState();
 
-        this.mainInv = ((Barrel) stateBottom).getInventory();
-        this.equipInv = ((Barrel) stateTop).getInventory();
+        Container containerBottom = (Container) stateBottom;
+        Container containerTop = (Container) stateTop;
+
+        this.mainInv = containerBottom.getInventory();
+        this.equipInv = containerTop.getInventory();
 
     }
 
@@ -70,7 +72,14 @@ public class DeathCrate {
      * @param player
      */
     private void fillMain(Player player) {
-        mainInv.setContents(player.getInventory().getStorageContents());
+
+        ItemStack[] contents = player.getInventory().getContents();
+
+        ItemStack[] only3X9 = new ItemStack[27];
+
+        System.arraycopy(contents, 9, only3X9, 0, 27);
+
+        mainInv.setContents(only3X9);
     }
 
     /**
@@ -81,9 +90,10 @@ public class DeathCrate {
     private void fillEquip(Player player) {
 
         ItemStack[] armorContents = player.getInventory().getArmorContents();
-        ItemStack[] hotbarContents = player.getInventory().getExtraContents();
+        ItemStack[] onlyHotBar = new ItemStack[9];
+        System.arraycopy(player.getInventory().getContents(), 0, onlyHotBar, 0, 9);
 
-        int length = armorContents.length + hotbarContents.length;
+        int length = armorContents.length + onlyHotBar.length + 1;
         ItemStack[] equipContents = new ItemStack[length];
 
         int i = 0;
@@ -93,7 +103,9 @@ public class DeathCrate {
             i++;
         }
 
-        for (ItemStack item : hotbarContents) {
+        equipContents[i++] = player.getInventory().getItemInOffHand();
+
+        for (ItemStack item : onlyHotBar) {
             equipContents[i] = item;
             i++;
         }
