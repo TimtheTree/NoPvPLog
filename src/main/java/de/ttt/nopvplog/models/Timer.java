@@ -17,6 +17,10 @@ public abstract class Timer<T extends EntityDamageEvent> {
         this.lastDamage = lastDamage;
     }
 
+    public long getLastDamage() {
+        return this.lastDamage;
+    }
+
     /**
      * @return time passed in seconds
      */
