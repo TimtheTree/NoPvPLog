@@ -15,9 +15,9 @@ import java.util.UUID;
 public abstract class TimerController<T extends EntityDamageEvent> {
 
     protected final long timerDuration;
-    protected final HashMap<UUID, Timer> timerHashMap;
+    protected final HashMap<UUID, Timer<T>> timerHashMap;
 
-    public TimerController(NoPvPLogTemplate template) {
+    protected TimerController(NoPvPLogTemplate template) {
         this.timerHashMap = new HashMap<>();
         addAllPlayers();
 
@@ -47,9 +47,15 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     protected abstract void addEntry(UUID playerId);
 
-    protected @Nullable Timer getTimer(UUID playerId) {
-        return this.timerHashMap.getOrDefault(playerId, null);
-        //TODO potenzielle Gefahrenstelle
+    protected Timer<T> getTimer(UUID playerId) {
+        Timer<T> timer = this.timerHashMap.get(playerId);
+
+        if(timer == null) {
+            this.addEntry(playerId);
+            timer = this.timerHashMap.get(playerId);
+        }
+
+        return timer;
     }
 
     public void deleteEntry(UUID playerId) {
