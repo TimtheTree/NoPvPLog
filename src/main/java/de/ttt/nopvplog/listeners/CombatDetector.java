@@ -18,36 +18,38 @@ public class CombatDetector implements Listener {
         this.template = template;
     }
 
-    @EventHandler
-    public void onPlayerDamage(EntityDamageByEntityEvent event) {
-
-        if (!(event.getEntity() instanceof Player)) return;
-
-        if (event.getDamager() instanceof Player) {
-            template.getCTController().updateEntry(event);
-        } else if (event.getDamager() instanceof Projectile projectile) {
-
-            if (projectile.getShooter() instanceof Player player) {
-                template.getCTController().updateEntry(
-                        new EntityDamageByEntityEvent(player, event.getEntity(),
-                                event.getCause(), new HashMap<>(), new HashMap<>(), event.isCritical())
-                );
-            }
-        } else {
-            template.getDTController().updateEntry(event);
-        }
-    }
-
+    /**
+     * Handles updating of Combat timers, both PvP and general
+     * @param event
+     */
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
 
         if (!(event.getEntity() instanceof Player)) return;
 
         if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            //Cover all Damage causes except entity attacks
             template.getDTController().updateEntry(event);
+
+        } else if(event instanceof EntityDamageByEntityEvent damageByEntityEvent) {
+
+            if (damageByEntityEvent.getDamager() instanceof Player) {
+                //Cover damage by enemy players
+                template.getCTController().updateEntry(damageByEntityEvent);
+                //Now covered all except non player entity attacks
+            } else if (damageByEntityEvent.getDamager() instanceof Projectile projectile) {
+
+                if (projectile.getShooter() instanceof Player player) {
+                    //Cover players shooting projectiles, all thats left is non player entity attacks
+                    template.getCTController().updateEntry(
+                            new EntityDamageByEntityEvent(player, event.getEntity(),
+                                    event.getCause(), new HashMap<>(), new HashMap<>(), damageByEntityEvent.isCritical())
+                    );
+                }
+            } else {
+                //Cover all non player entity attacks
+                template.getDTController().updateEntry(event);
+            }
         }
     }
-
 }
-
-
