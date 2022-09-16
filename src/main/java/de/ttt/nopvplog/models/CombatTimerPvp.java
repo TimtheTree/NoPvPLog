@@ -6,20 +6,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.UUID;
 
-public class CombatTimer {
-
-    private long lastDamage;
-
-    private final UUID playerReference;
+public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
     private UUID enemyReference;
 
-    public CombatTimer(UUID playerReference) {
-        this.playerReference = playerReference;
-    }
-
-    public void setLastDamage(long lastDamage) {
-        this.lastDamage = lastDamage;
+    public CombatTimerPvp(UUID playerReference) {
+        super(playerReference);
     }
 
     public void setEnemyReference(UUID enemyReference) {
@@ -27,15 +19,7 @@ public class CombatTimer {
     }
 
     /**
-     * @return time passed in seconds
-     */
-    public long timePassed() {
-        return (this.lastDamage - System.currentTimeMillis()) / 1000;
-    }
-
-    /**
-     *
-     * @param timerDuration The time a player has to wait before being out of combat
+     * @param timerDuration               The time a player has to wait before being out of combat
      * @param minimumDeactivationDistance The distance the player has to be away from their enemy in order to be out of combat
      * @return true if the combat timer is over AND the enemy players distance is greater than the minimum deactivation distance
      */
@@ -45,6 +29,7 @@ public class CombatTimer {
 
     /**
      * Calculates the distance of the player this timer is assigned to from the person who last hit them
+     *
      * @return the distance
      */
     public long playerEnemyDistance() {
@@ -55,6 +40,7 @@ public class CombatTimer {
 
     /**
      * updates this objects last damage time and Enemy who cause the damage
+     *
      * @param event the event to read from
      */
     public void update(EntityDamageByEntityEvent event) {

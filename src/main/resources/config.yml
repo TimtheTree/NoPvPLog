@@ -1,3 +1,9 @@
-CombatTimerDuration: 180
-MinimumDeactivationDistance: 50
+GeneralTimerDuration: 20
+
+CombatTimerDuration: 60
+MinimumDeactivationDistancePvP: 50
   #Distance to an Enemy
+
+
+
+DeathCrateType: BARREL

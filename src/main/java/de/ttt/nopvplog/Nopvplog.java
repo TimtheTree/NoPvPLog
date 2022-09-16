@@ -1,8 +1,10 @@
 package de.ttt.nopvplog;
 
 import de.ttt.nopvplog.controllers.CombatTimerController;
+import de.ttt.nopvplog.controllers.DamageTimerController;
 import de.ttt.nopvplog.controllers.DeathCrateController;
 import de.ttt.nopvplog.listeners.CombatDetector;
+import de.ttt.nopvplog.listeners.PvPLogDetector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -10,7 +12,8 @@ import java.io.File;
 
 public final class Nopvplog extends NoPvPLogTemplate {
 
-    private CombatTimerController cTController;
+    private CombatTimerController combatTimerController;
+    private DamageTimerController damageTimerController;
     private DeathCrateController deathCrateController;
 
     @Override
@@ -19,10 +22,13 @@ public final class Nopvplog extends NoPvPLogTemplate {
         makeFiles();
 
         //create CTController for management and passing onto other dependants
-        this.cTController = new CombatTimerController(this);
+        this.combatTimerController = new CombatTimerController(this);
+        this.damageTimerController = new DamageTimerController(this);
         this.deathCrateController = new DeathCrateController(this);
-        //register Listened for Combat detection
+        //register Listener for Combat detection
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
+        Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this.deathCrateController, this.combatTimerController, this.damageTimerController), this);
+
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Enabled NoPvPLog");
     }
@@ -44,7 +50,12 @@ public final class Nopvplog extends NoPvPLogTemplate {
 
     @Override
     public CombatTimerController getCTController() {
-        return this.cTController;
+        return this.combatTimerController;
+    }
+
+    @Override
+    public DamageTimerController getDTController() {
+        return this.damageTimerController;
     }
 
     @Override
