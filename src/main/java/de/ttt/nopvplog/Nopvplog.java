@@ -4,6 +4,7 @@ import de.ttt.nopvplog.controllers.CombatTimerController;
 import de.ttt.nopvplog.controllers.DamageTimerController;
 import de.ttt.nopvplog.controllers.DeathCrateController;
 import de.ttt.nopvplog.listeners.CombatDetector;
+import de.ttt.nopvplog.listeners.PvPLogDetector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -26,6 +27,7 @@ public final class Nopvplog extends NoPvPLogTemplate {
         this.deathCrateController = new DeathCrateController(this);
         //register Listened for Combat detection
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
+        Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this.deathCrateController, this.combatTimerController, this.damageTimerController), this);
 
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Enabled NoPvPLog");
