@@ -28,6 +28,10 @@ public abstract class TimerController<T extends EntityDamageEvent> {
         return timerDuration;
     }
 
+    public long getTimeLeft(UUID playerId) {
+        Timer<T> timer = this.getTimer(playerId);
+        return  this.timerDuration - (System.currentTimeMillis() - timer.getLastDamage());
+    }
 
     public void addAllPlayers() {
         for (Player player : Bukkit.getOnlinePlayers()) {
