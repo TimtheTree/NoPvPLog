@@ -21,7 +21,6 @@ public class DeathCrateController {
         this.template = template;
 
         String containerName = template.getConfig().getString("DeathCrateType");
-        //TODO fix and use container config
 
         try {
 
@@ -49,7 +48,7 @@ public class DeathCrateController {
 
         DeathCrate crate = new DeathCrate(ownerId, this);
 
-        crate.createCrates(location);
+        crate.createCrates(location, containerType);
         crate.fillCrates(ownerId);
 
     }

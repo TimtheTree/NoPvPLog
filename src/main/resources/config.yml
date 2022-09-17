@@ -4,7 +4,7 @@ CombatTimerDuration: 60
 MinimumDeactivationDistancePvP: 50
   #Distance to an Enemy
 
-DeathCrateType: BARREL
+DeathCrateType: "BARREL"
 
 HologramMainTextColor: "RED"
 HologramSecondTextColor: "YELLOW"

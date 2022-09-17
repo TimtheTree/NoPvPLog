@@ -30,13 +30,13 @@ public class DeathCrate {
         return owner;
     }
 
-    public void createCrates(Location location) {
+    public void createCrates(Location location, Material containerType) {
 
         Block blockBottom = location.getWorld().getBlockAt(location);
         Block blockTop = blockBottom.getRelative(BlockFace.UP);
 
-        blockBottom.setType(Material.BARREL);
-        blockTop.setType(Material.BARREL);
+        blockBottom.setType(containerType);
+        blockTop.setType(containerType);
 
         BlockState stateBottom = blockBottom.getState();
         BlockState stateTop = blockTop.getState();
