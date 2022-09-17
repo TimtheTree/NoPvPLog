@@ -3,6 +3,7 @@ package de.ttt.nopvplog;
 import de.ttt.nopvplog.controllers.CombatTimerController;
 import de.ttt.nopvplog.controllers.DamageTimerController;
 import de.ttt.nopvplog.controllers.DeathCrateController;
+import de.ttt.nopvplog.controllers.HologramController;
 import de.ttt.nopvplog.listeners.CombatDetector;
 import de.ttt.nopvplog.listeners.PvPLogDetector;
 import org.bukkit.Bukkit;
@@ -15,6 +16,7 @@ public final class Nopvplog extends NoPvPLogTemplate {
     private CombatTimerController combatTimerController;
     private DamageTimerController damageTimerController;
     private DeathCrateController deathCrateController;
+    private HologramController hologramController;
 
     @Override
     public void onEnable() {
@@ -25,9 +27,10 @@ public final class Nopvplog extends NoPvPLogTemplate {
         this.combatTimerController = new CombatTimerController(this);
         this.damageTimerController = new DamageTimerController(this);
         this.deathCrateController = new DeathCrateController(this);
+        this.hologramController = new HologramController(this);
         //register Listener for Combat detection
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
-        Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this.deathCrateController, this.combatTimerController, this.damageTimerController), this);
+        Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this.deathCrateController, this.combatTimerController, this.damageTimerController, this.hologramController), this);
 
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Enabled NoPvPLog");
@@ -61,5 +64,10 @@ public final class Nopvplog extends NoPvPLogTemplate {
     @Override
     public DeathCrateController getDeathCrateController() {
         return this.deathCrateController;
+    }
+
+    @Override
+    public HologramController getHologramController() {
+        return this.hologramController;
     }
 }
