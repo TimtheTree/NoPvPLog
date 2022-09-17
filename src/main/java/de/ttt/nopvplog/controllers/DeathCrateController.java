@@ -21,6 +21,7 @@ public class DeathCrateController {
         this.template = template;
 
         String containerName = template.getConfig().getString("DeathCrateType");
+        //TODO fix and use container config
 
         try {
 

@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 
 public class Hologram {
 
+    //TODO add despawning to armorstands
+    //TODO maybe add heads to armorstands
+
     private Player owner;
 
     public Hologram(Player owner) {
