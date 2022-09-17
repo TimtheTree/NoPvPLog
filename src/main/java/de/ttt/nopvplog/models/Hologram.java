@@ -16,6 +16,13 @@ public class Hologram {
         this.owner = owner;
     }
 
+    /**
+     * Creates two lines of flying text above the passed players position
+     * @param mainTextColor the color the upper text should be which contains the players name
+     * @param secondTextColor the color the lower text should be
+     * @param mainText part of the upper text (which should be fitted to the passed players name standing at the beginning of the upper text)
+     * @param secondText the lower text
+     */
     public void createHologram(ChatColor mainTextColor, ChatColor secondTextColor, String mainText, String secondText) {
         Location location = owner.getLocation().toCenterLocation();
 

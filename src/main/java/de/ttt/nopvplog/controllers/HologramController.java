@@ -14,6 +14,14 @@ public class HologramController {
         this.template = template;
     }
 
+    public NoPvPLogTemplate getTemplate() {
+        return template;
+    }
+
+    /**
+     * Creates flying text above the passed players position
+     * @param owner the Player mentioned in the flying text and who's position it's above
+     */
     public void createHologram(Player owner) {
         Hologram hologram = new Hologram(owner);
 
@@ -46,9 +54,5 @@ public class HologramController {
         String secondText = template.getConfig().getString("HologramSecondText");
 
         hologram.createHologram(mainTextColor, secondTextColor, mainText, secondText);
-    }
-
-    public NoPvPLogTemplate getTemplate() {
-        return template;
     }
 }
