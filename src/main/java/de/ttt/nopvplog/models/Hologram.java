@@ -11,10 +11,6 @@ public class Hologram {
 
     private Player owner;
 
-    private final Location location = owner.getLocation().toCenterLocation();
-
-    private final String name = owner.getName();
-
     public Hologram(Player owner) {
         this.owner = owner;
     }
@@ -28,10 +24,12 @@ public class Hologram {
      * @param secondText      the lower text
      */
     public void createHologram(ChatColor mainTextColor, ChatColor secondTextColor, String mainText, String secondText) {
+        Location location = this.owner.getLocation().toCenterLocation();
+        String name = this.owner.getName();
 
-        createMainText(mainTextColor, mainText);
+        createMainText(location, name,mainTextColor, mainText);
 
-        createSecondText(secondTextColor, secondText);
+        createSecondText(location,secondTextColor, secondText);
 
     }
 
@@ -41,12 +39,12 @@ public class Hologram {
      * @param textColor color the text should be
      * @param text the text
      */
-    private void createMainText(ChatColor textColor, String text) {
-        ArmorStand mainTextAS = this.location.getWorld().spawn(this.location.add(0, 0.1, 0), ArmorStand.class);
+    private void createMainText(Location location, String name, ChatColor textColor, String text) {
+        ArmorStand mainTextAS = location.getWorld().spawn(location.add(0, 0.1, 0), ArmorStand.class);
 
         mainTextAS.setGravity(false);
         mainTextAS.setCanPickupItems(false);
-        mainTextAS.setCustomName(textColor + this.name + text);
+        mainTextAS.setCustomName(textColor + name + text);
         mainTextAS.setCustomNameVisible(true);
         mainTextAS.setVisible(false);
     }
@@ -57,8 +55,8 @@ public class Hologram {
      * @param textColor color the text should be
      * @param text the text
      */
-    private void createSecondText(ChatColor textColor, String text) {
-        ArmorStand secondTextAS = this.location.getWorld().spawn(this.location.subtract(0, 0.3, 0), ArmorStand.class);
+    private void createSecondText(Location location, ChatColor textColor, String text) {
+        ArmorStand secondTextAS = location.getWorld().spawn(location.subtract(0, 0.3, 0), ArmorStand.class);
 
         secondTextAS.setGravity(false);
         secondTextAS.setCanPickupItems(false);
