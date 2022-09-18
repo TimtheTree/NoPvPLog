@@ -1,52 +1,89 @@
 package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
-import de.ttt.nopvplog.models.CombatTimerPvp;
-import de.ttt.nopvplog.models.DamageTimer;
 import de.ttt.nopvplog.models.Timer;
-import de.ttt.nopvplog.models.actionbar.ActionBarMessage;
+import de.ttt.nopvplog.models.actionbar.CombatTimerMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public class ActionBarController {
 
-    private final HashMap<UUID, ActionBarMessage> actionBarMap = new HashMap<>();
+    private static String TAGGED_MESSAGE;
+    private final HashMap<UUID, CombatTimerMessage> actionBarMap = new HashMap<>();
     private final int updateDelay;
     private final NoPvPLogTemplate template;
 
     public ActionBarController(int updateDelay, NoPvPLogTemplate template) {
         this.updateDelay = updateDelay;
         this.template = template;
+        TAGGED_MESSAGE = this.template.getConfig().getString("ActionBarMessage");
     }
 
     private void updateBar(UUID playerID) {
 
-        DamageTimer damageTimer = (DamageTimer) this.template.getDTController().getTimer(playerID);
-        CombatTimerPvp combatTimer = (CombatTimerPvp) this.template.getCTController().getTimer(playerID);
+        CombatTimerMessage message = this.getMessage(playerID);
 
-        Timer<EntityDamageEvent> longerTimer;
+        Timer<? extends EntityDamageEvent> longerTimer = this.template.getLongerTimer(playerID);
 
-        if(damageTimer.getLastDamage() <= combatTimer.getLastDamage()) {
-            //TODO
-        }
-
-
+        message.display(longerTimer.timeLeftOnTimer());
 
     }
 
     private void updateAllBars() {
+        for(CombatTimerMessage message : getRelevantTimers()) {
+
+           updateBar(message.getOwnerId());
+
+        }
+    }
+
+    /**
+     * Gets the entry related to the player ID passed in, creates a new CombatTimerMessage if none were found
+     *
+     * @param playerId
+     */
+    private CombatTimerMessage getMessage(UUID playerId) {
+
+        if (this.actionBarMap.get(playerId) == null) {
+            this.actionBarMap.put(playerId, new CombatTimerMessage(TAGGED_MESSAGE, playerId));
+        }
+
+        return this.actionBarMap.get(playerId);
 
     }
 
-    private List<Timer<EntityDamageEvent>> getRelevantTimers() {
-        return null;
+    /**
+     * Goes through all online players and checks whether they are in combat. if so, their messsage will be added to the list
+     * @return A list of In-Combat players
+     */
+    private List<CombatTimerMessage> getRelevantTimers() {
+
+        ArrayList<CombatTimerMessage> result = new ArrayList<>();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+
+            CombatTimerMessage message = this.getMessage(player.getUniqueId());
+
+            Timer<? extends EntityDamageEvent> timer = this.template.getLongerTimer(player.getUniqueId());
+
+            if (timer.isOutOfCombat(timer.getTimerDuration(), timer.getMinimumDeactivationDistance())) {
+                continue;
+            }
+
+            result.add(message);
+
+        }
+
+        return result;
     }
 
-    public void runUpdateTime(long timerTicks) {
+    public void runUpdateTimer() {
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(template, this::updateAllBars, 10, this.updateDelay);
 
