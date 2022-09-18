@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class CombatTimerMessage {
+public class CombatTimerMessage{
     private static final String TIMER_PLACEHOLDER = "%time%";
 
     private final String baseMessage;
@@ -15,6 +15,14 @@ public class CombatTimerMessage {
     public CombatTimerMessage(String baseMessage, UUID ownerId) {
         this.baseMessage = baseMessage;
         this.ownerId = ownerId;
+    }
+
+    public String getBaseMessage() {
+        return baseMessage;
+    }
+
+    public UUID getOwnerId() {
+        return ownerId;
     }
 
     /**
