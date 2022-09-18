@@ -34,7 +34,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     public long getTimeLeft(UUID playerId) {
         Timer<T> timer = this.getTimer(playerId);
-        return this.timerDuration - (System.currentTimeMillis() - timer.getLastDamage());
+        return this.timerDuration - (timer.timePassed());
     }
 
     public void addAllPlayers() {
@@ -48,7 +48,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
     }
 
     public void addEntry(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player player) {
+        if (event.getEntity() instanceof Player player && this.timerHashMap.containsKey(player.getUniqueId())) {
             addEntry(player.getUniqueId());
         }
     }

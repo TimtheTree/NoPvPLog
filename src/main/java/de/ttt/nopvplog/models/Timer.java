@@ -48,7 +48,7 @@ public abstract class Timer<T extends EntityDamageEvent> {
      * @return time passed in seconds
      */
     public long timePassed() {
-        return (this.lastDamage - System.currentTimeMillis()) / 1000;
+        return (System.currentTimeMillis() - this.lastDamage) / 1000;
     }
 
     public long timeLeftOnTimer(){
