@@ -17,11 +17,11 @@ public abstract class TimerController<T extends EntityDamageEvent> {
     protected final long timerDuration;
     protected final HashMap<UUID, Timer<T>> timerHashMap;
 
-    protected TimerController(NoPvPLogTemplate template) {
+    protected TimerController(NoPvPLogTemplate template, String timerPath) {
         this.timerHashMap = new HashMap<>();
         addAllPlayers();
 
-        this.timerDuration = template.getConfig().getLong("TimerDuration");
+        this.timerDuration = template.getConfig().getLong(timerPath);
     }
 
     public long getTimerDuration() {
@@ -30,7 +30,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     public long getTimeLeft(UUID playerId) {
         Timer<T> timer = this.getTimer(playerId);
-        return  this.timerDuration - (System.currentTimeMillis() - timer.getLastDamage());
+        return this.timerDuration - (System.currentTimeMillis() - timer.getLastDamage());
     }
 
     public void addAllPlayers() {
