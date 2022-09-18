@@ -28,7 +28,7 @@ public final class Nopvplog extends NoPvPLogTemplate {
         //create config file
         makeFiles();
 
-        //create CTController for management and passing onto other dependants
+        //create Controllers for management and passing onto other dependants
         this.combatTimerController = new CombatTimerController(this);
         this.damageTimerController = new DamageTimerController(this);
         this.deathCrateController = new DeathCrateController(this);
