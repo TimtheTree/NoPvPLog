@@ -14,6 +14,11 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
     }
 
     @Override
+    public long getMinimumDeactivationDistance() {
+        return 0;
+    }
+
+    @Override
     public void addEntry(UUID playerId) {
         this.timerHashMap.put(playerId, new DamageTimer(playerId, this));
     }

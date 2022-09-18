@@ -14,6 +14,7 @@ import java.util.UUID;
 
 public abstract class TimerController<T extends EntityDamageEvent> {
 
+    protected final long minimumDeactivationDistance;
     protected final long timerDuration;
     protected final HashMap<UUID, Timer<T>> timerHashMap;
 
@@ -22,11 +23,14 @@ public abstract class TimerController<T extends EntityDamageEvent> {
         addAllPlayers();
 
         this.timerDuration = template.getConfig().getLong(timerPath);
+        this.minimumDeactivationDistance = template.getConfig().getLong("MinimumDeactivationDistancePvP");
     }
 
     public long getTimerDuration() {
         return timerDuration;
     }
+
+    public abstract long getMinimumDeactivationDistance();
 
     public long getTimeLeft(UUID playerId) {
         Timer<T> timer = this.getTimer(playerId);
@@ -51,7 +55,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     protected abstract void addEntry(UUID playerId);
 
-    protected Timer<T> getTimer(UUID playerId) {
+    public Timer<T> getTimer(UUID playerId) {
         Timer<T> timer = this.timerHashMap.get(playerId);
 
         if(timer == null) {

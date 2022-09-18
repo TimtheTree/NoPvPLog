@@ -10,11 +10,9 @@ import java.util.UUID;
 
 public class CombatTimerController extends TimerController<EntityDamageByEntityEvent> {
 
-    private final long minimumDeactivationDistance;
 
     public CombatTimerController(NoPvPLogTemplate template) {
         super(template, "CombatTimerDuration");
-        this.minimumDeactivationDistance = template.getConfig().getLong("MinimumDeactivationDistancePvP");
     }
 
     @Override
@@ -22,6 +20,7 @@ public class CombatTimerController extends TimerController<EntityDamageByEntityE
         this.timerHashMap.put(playerId, new CombatTimerPvp(playerId, this));
     }
 
+    @Override
     public long getMinimumDeactivationDistance() {
         return minimumDeactivationDistance;
     }
