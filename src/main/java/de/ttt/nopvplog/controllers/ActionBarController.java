@@ -36,9 +36,18 @@ public class ActionBarController {
     }
 
     private void updateAllBars() {
-        for(CombatTimerMessage message : getRelevantTimers()) {
 
-           updateBar(message.getOwnerId());
+        for (Player player : Bukkit.getOnlinePlayers()) {
+
+            CombatTimerMessage message = this.getMessage(player.getUniqueId());
+
+            Timer<? extends EntityDamageEvent> timer = this.template.getLongerTimer(player.getUniqueId());
+
+            if (timer.isOutOfCombat(timer.getTimerDuration(), timer.getMinimumDeactivationDistance())) {
+                continue;
+            }
+
+            message.display(timer.timeLeftOnTimer());
 
         }
     }
@@ -56,31 +65,6 @@ public class ActionBarController {
 
         return this.actionBarMap.get(playerId);
 
-    }
-
-    /**
-     * Goes through all online players and checks whether they are in combat. if so, their messsage will be added to the list
-     * @return A list of In-Combat players
-     */
-    private List<CombatTimerMessage> getRelevantTimers() {
-
-        ArrayList<CombatTimerMessage> result = new ArrayList<>();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-
-            CombatTimerMessage message = this.getMessage(player.getUniqueId());
-
-            Timer<? extends EntityDamageEvent> timer = this.template.getLongerTimer(player.getUniqueId());
-
-            if (timer.isOutOfCombat(timer.getTimerDuration(), timer.getMinimumDeactivationDistance())) {
-                continue;
-            }
-
-            result.add(message);
-
-        }
-
-        return result;
     }
 
     public void runUpdateTimer() {
