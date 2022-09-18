@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 public class HologramController {
 
     private final NoPvPLogTemplate template;
+    private Hologram hologram;
 
     public HologramController(NoPvPLogTemplate template) {
         this.template = template;
@@ -18,13 +19,20 @@ public class HologramController {
         return template;
     }
 
+    public String[] getHologramId() {
+        String[] array = new String[2];
+        array[0] = hologram.getMainTextASUUID().toString();
+        array[1] = hologram.getSecondTextASUUID().toString();
+        return array;
+    }
+
     /**
      * Creates flying text above the passed players position
      *
      * @param owner the Player mentioned in the flying text and who's position it's above
      */
     public void createHologram(Player owner) {
-        Hologram hologram = new Hologram(owner);
+        hologram = new Hologram(owner);
 
         String mainText = template.getConfig().getString("HologramMainText");
         String secondText = template.getConfig().getString("HologramSecondText");

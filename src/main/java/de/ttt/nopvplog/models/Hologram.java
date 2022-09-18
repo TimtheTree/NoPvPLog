@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -13,9 +14,19 @@ public class Hologram {
     //TODO add despawning to armorstands
 
     private Player owner;
+    private ArmorStand mainTextAS;
+    private ArmorStand secondTextAS;
 
     public Hologram(Player owner) {
         this.owner = owner;
+    }
+
+    public @NotNull UUID getMainTextASUUID() {
+        return mainTextAS.getUniqueId();
+    }
+
+    public @NotNull UUID getSecondTextASUUID() {
+        return secondTextAS.getUniqueId();
     }
 
     /**
@@ -51,7 +62,7 @@ public class Hologram {
      * @param text      the text
      */
     private void createMainText(Location location, String name, ChatColor textColor, String text) {
-        ArmorStand mainTextAS = location.getWorld().spawn(location.add(0, 0.1, 0), ArmorStand.class);
+        mainTextAS = location.getWorld().spawn(location.add(0, 0.1, 0), ArmorStand.class);
 
         mainTextAS.setGravity(false);
         mainTextAS.setCanPickupItems(false);
@@ -67,7 +78,7 @@ public class Hologram {
      * @param text      the text
      */
     private void createSecondText(Location location, ChatColor textColor, String text) {
-        ArmorStand secondTextAS = location.getWorld().spawn(location.subtract(0, 0.3, 0), ArmorStand.class);
+        secondTextAS = location.getWorld().spawn(location.subtract(0, 0.3, 0), ArmorStand.class);
 
         secondTextAS.setGravity(false);
         secondTextAS.setCanPickupItems(false);

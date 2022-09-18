@@ -33,6 +33,8 @@ public class PvPLogDetector implements Listener {
 
         this.hologramController.createHologram(event.getPlayer());
 
+        this.hologramController.getHologramId();
+
         event.getPlayer().getInventory().clear();
 
         event.getPlayer().setHealth(0.0);
