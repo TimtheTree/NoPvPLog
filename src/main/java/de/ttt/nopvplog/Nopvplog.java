@@ -79,13 +79,10 @@ public final class Nopvplog extends NoPvPLogTemplate {
         DamageTimer damageTimer = (DamageTimer) this.getDTController().getTimer(playerId);
         CombatTimerPvp combatTimer = (CombatTimerPvp) this.getCTController().getTimer(playerId);
 
-        Timer<? extends EntityDamageEvent> longerTimer;
-
-        if (damageTimer.timeLeftOnTimer() <= combatTimer.timeLeftOnTimer()) {
-            longerTimer = combatTimer;
+        if (damageTimer.timeLeftOnTimer() < combatTimer.timeLeftOnTimer()) {
+            return combatTimer;
         } else {
-            longerTimer = damageTimer;
+            return damageTimer;
         }
-        return longerTimer;
     }
 }
