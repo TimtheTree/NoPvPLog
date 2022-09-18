@@ -15,7 +15,7 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
     @Override
     public long getMinimumDeactivationDistance() {
-        return 0;
+        return -1;
     }
 
     @Override
