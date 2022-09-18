@@ -10,12 +10,12 @@ import java.util.UUID;
 public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
     public DamageTimerController(NoPvPLogTemplate template) {
-        super(template);
+        super(template, "GeneralTimerDuration");
     }
 
     @Override
     public void addEntry(UUID playerId) {
-        this.timerHashMap.put(playerId, new DamageTimer(playerId));
+        this.timerHashMap.put(playerId, new DamageTimer(playerId, this));
     }
 
     public boolean detectCombat(UUID playerId) {
@@ -26,7 +26,6 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
         damageTimer = (DamageTimer) this.getTimer(playerId);
         return !damageTimer.isOutOfCombat(this.timerDuration, 0);
     }
-
 
     public void updateEntry(EntityDamageEvent event) {
         if (event.getEntityType() == EntityType.PLAYER) {
