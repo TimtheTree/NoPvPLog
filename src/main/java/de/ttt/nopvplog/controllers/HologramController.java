@@ -20,39 +20,55 @@ public class HologramController {
 
     /**
      * Creates flying text above the passed players position
+     *
      * @param owner the Player mentioned in the flying text and who's position it's above
      */
     public void createHologram(Player owner) {
         Hologram hologram = new Hologram(owner);
 
-        String mainTextColorName = this.template.getConfig().getString("HologramMainTextColor");
-        String secondTextColorName = this.template.getConfig().getString("HologramSecondTextColor");
-
-        ChatColor mainTextColor;
-        try {
-
-            mainTextColor = ChatColor.valueOf(mainTextColorName.toUpperCase());
-
-        } catch (IllegalArgumentException e) {
-
-            throw new HologramTextColorException("Could not get a proper color from config. Make sure it exists and look at the comment in the config!");
-
-        }
-
-        ChatColor secondTextColor;
-        try {
-
-            secondTextColor = ChatColor.valueOf(secondTextColorName.toUpperCase());
-
-        } catch (IllegalArgumentException e) {
-
-            throw new HologramTextColorException("Could not get a proper color from config. Make sure it exists and look at the comment in the config!");
-
-        }
-
         String mainText = template.getConfig().getString("HologramMainText");
         String secondText = template.getConfig().getString("HologramSecondText");
 
-        hologram.createHologram(mainTextColor, secondTextColor, mainText, secondText);
+        hologram.createHologram(mainTextColor(), secondTextColor(), mainText, secondText);
+    }
+
+    /**
+     * returns the color the main text should be
+     *
+     * @return ChatColor
+     */
+    private ChatColor mainTextColor() {
+        String textColorName = this.template.getConfig().getString("HologramMainTextColor");
+        ChatColor color;
+
+        try {
+
+            color = ChatColor.valueOf(textColorName.toUpperCase());
+
+        } catch (IllegalArgumentException e) {
+            throw new HologramTextColorException("Could not get a proper color from config. Make sure it exists and look at the comment in the config!");
+        }
+
+        return color;
+    }
+
+    /**
+     * returns the color the second text should be
+     *
+     * @return ChatColor
+     */
+    private ChatColor secondTextColor() {
+        String textColorName = this.template.getConfig().getString("HologramSecondTextColor");
+        ChatColor color;
+
+        try {
+
+            color = ChatColor.valueOf(textColorName.toUpperCase());
+
+        } catch (IllegalArgumentException e) {
+            throw new HologramTextColorException("Could not get a proper color from config. Make sure it exists and look at the comment in the config!");
+        }
+
+        return color;
     }
 }
