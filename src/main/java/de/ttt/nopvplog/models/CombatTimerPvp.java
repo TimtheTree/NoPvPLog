@@ -35,8 +35,16 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
      * @return the distance
      */
     public long playerEnemyDistance() {
+
+        if (playerReference == null
+                || enemyReference == null) return Long.MAX_VALUE;
+
         Player player = Bukkit.getPlayer(playerReference);
         Player enemy = Bukkit.getPlayer(enemyReference);
+
+        if (player == null
+                || enemy == null) return Long.MAX_VALUE;
+
         return (long) player.getLocation().distance(enemy.getLocation());
     }
 
