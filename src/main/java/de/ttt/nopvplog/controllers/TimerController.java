@@ -3,6 +3,7 @@ package de.ttt.nopvplog.controllers;
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.models.Timer;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -30,7 +31,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     public long getTimeLeft(UUID playerId) {
         Timer<T> timer = this.getTimer(playerId);
-        return  this.timerDuration - (System.currentTimeMillis() - timer.getLastDamage());
+        return this.timerDuration - (System.currentTimeMillis() - timer.getLastDamage());
     }
 
     public void addAllPlayers() {
@@ -51,10 +52,10 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     protected abstract void addEntry(UUID playerId);
 
-    protected Timer<T> getTimer(UUID playerId) {
+    public Timer<T> getTimer(UUID playerId) {
         Timer<T> timer = this.timerHashMap.get(playerId);
 
-        if(timer == null) {
+        if (timer == null) {
             this.addEntry(playerId);
             timer = this.timerHashMap.get(playerId);
         }
@@ -67,6 +68,19 @@ public abstract class TimerController<T extends EntityDamageEvent> {
     }
 
     public abstract void updateEntry(T event);
+
+    public void updateTimer(UUID playerId) {
+
+        Timer timer = getTimer(playerId);
+
+        if (timer == null) {
+            addEntry(playerId);
+            timer = getTimer(playerId);
+        }
+
+        timer.setLastDamage(System.currentTimeMillis());
+
+    }
 
 
 }

@@ -1,9 +1,12 @@
 package de.ttt.nopvplog.models;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class Hologram {
 
@@ -27,9 +30,17 @@ public class Hologram {
         Location location = this.owner.getLocation().toCenterLocation();
         String name = this.owner.getName();
 
-        createMainText(location, name,mainTextColor, mainText);
+        createMainText(location, name, mainTextColor, mainText);
 
-        createSecondText(location,secondTextColor, secondText);
+        createSecondText(location, secondTextColor, secondText);
+
+    }
+
+    public void removeHologram(UUID mASID, UUID sASID) {
+
+        Bukkit.getServer().getWorld(mASID).getEntity(mASID).remove();
+
+        Bukkit.getServer().getWorld(sASID).getEntity(sASID).remove();
 
     }
 
@@ -37,7 +48,7 @@ public class Hologram {
      * Creates the upper line of flying text
      *
      * @param textColor color the text should be
-     * @param text the text
+     * @param text      the text
      */
     private void createMainText(Location location, String name, ChatColor textColor, String text) {
         ArmorStand mainTextAS = location.getWorld().spawn(location.add(0, 0.1, 0), ArmorStand.class);
@@ -53,7 +64,7 @@ public class Hologram {
      * Creates the lower line of flying text
      *
      * @param textColor color the text should be
-     * @param text the text
+     * @param text      the text
      */
     private void createSecondText(Location location, ChatColor textColor, String text) {
         ArmorStand secondTextAS = location.getWorld().spawn(location.subtract(0, 0.3, 0), ArmorStand.class);

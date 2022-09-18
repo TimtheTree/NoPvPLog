@@ -41,6 +41,9 @@ public class PvPLogDetector implements Listener {
 
     private boolean playerIsInCombat(UUID playerId) {
 
+        this.combatTimerController.updateTimer(playerId);
+        this.damageTimerController.updateTimer(playerId);
+
         return this.combatTimerController.detectCombat(playerId) || this.damageTimerController.detectCombat(playerId);
 
     }
