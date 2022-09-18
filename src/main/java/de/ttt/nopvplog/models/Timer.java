@@ -17,6 +17,7 @@ public abstract class Timer<T extends EntityDamageEvent> {
         this.playerReference = playerReference;
         this.timerController = timerController;
         this.timerDuration = this.timerController.getTimerDuration();
+        this.lastDamage = System.currentTimeMillis();
         this.minimumDeactivationDistance = this.timerController.getMinimumDeactivationDistance();
     }
 
@@ -37,7 +38,7 @@ public abstract class Timer<T extends EntityDamageEvent> {
     }
 
     public long getTimerDuration() {
-        return timerDuration;
+        return this.timerDuration;
     }
 
     public long getMinimumDeactivationDistance() {
