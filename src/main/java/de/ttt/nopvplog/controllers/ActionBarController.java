@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class ActionBarController {
 
-    private static String TAGGED_MESSAGE;
+    private final String taggedMessage;
     private final HashMap<UUID, CombatTimerMessage> actionBarMap = new HashMap<>();
     private final int updateDelay;
     private final NoPvPLogTemplate template;
@@ -20,17 +20,7 @@ public class ActionBarController {
     public ActionBarController(int updateDelay, NoPvPLogTemplate template) {
         this.updateDelay = updateDelay;
         this.template = template;
-        TAGGED_MESSAGE = this.template.getConfig().getString("ActionBarMessage");
-    }
-
-    private void updateBar(UUID playerID) {
-
-        CombatTimerMessage message = this.getMessage(playerID);
-
-        Timer<? extends EntityDamageEvent> longerTimer = this.template.getLongerTimer(playerID);
-
-        message.display(longerTimer.timeLeftOnTimer());
-
+        taggedMessage = this.template.getConfig().getString("ActionBarMessage");
     }
 
     private void updateAllBars() {
@@ -57,13 +47,16 @@ public class ActionBarController {
     private CombatTimerMessage getMessage(UUID playerId) {
 
         if (this.actionBarMap.get(playerId) == null) {
-            this.actionBarMap.put(playerId, new CombatTimerMessage(TAGGED_MESSAGE, playerId));
+            this.actionBarMap.put(playerId, new CombatTimerMessage(this.taggedMessage, playerId));
         }
 
         return this.actionBarMap.get(playerId);
 
     }
 
+    /**
+     * Runs a timer to update the action bar for each player.
+     */
     public void runUpdateTimer() {
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(template, this::updateAllBars, 10, this.updateDelay);
