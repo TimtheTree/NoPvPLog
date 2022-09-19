@@ -42,7 +42,7 @@ public class ActionBarController {
     /**
      * Gets the entry related to the player ID passed in, creates a new CombatTimerMessage if none were found
      *
-     * @param playerId
+     * @param playerId the player to get the message for
      */
     private CombatTimerMessage getMessage(UUID playerId) {
 
