@@ -12,7 +12,7 @@ public class LocationWrapper {
 
     @Override
     public String toString() {
-        return this.location.getWorld() + ": " +
+        return this.location.getWorld().getName() + ": " +
                 this.location.getBlockX() + ", " +
                 this.location.getBlockY() + ", " +
                 this.location.getBlockZ();

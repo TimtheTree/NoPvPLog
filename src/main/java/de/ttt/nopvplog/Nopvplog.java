@@ -1,15 +1,21 @@
 package de.ttt.nopvplog;
 
+import de.ttt.nopvplog.controllers.ActionBarController;
 import de.ttt.nopvplog.controllers.CombatTimerController;
 import de.ttt.nopvplog.controllers.DamageTimerController;
 import de.ttt.nopvplog.controllers.DeathCrateController;
 import de.ttt.nopvplog.controllers.HologramController;
 import de.ttt.nopvplog.listeners.CombatDetector;
 import de.ttt.nopvplog.listeners.PvPLogDetector;
+import de.ttt.nopvplog.models.CombatTimerPvp;
+import de.ttt.nopvplog.models.DamageTimer;
+import de.ttt.nopvplog.models.Timer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.io.File;
+import java.util.UUID;
 
 public final class Nopvplog extends NoPvPLogTemplate {
 
@@ -17,21 +23,25 @@ public final class Nopvplog extends NoPvPLogTemplate {
     private DamageTimerController damageTimerController;
     private DeathCrateController deathCrateController;
     private HologramController hologramController;
+    private ActionBarController actionBarController;
 
     @Override
     public void onEnable() {
         //create config file
         makeFiles();
 
-        //create CTController for management and passing onto other dependants
+        //create Controllers for management and passing onto other dependants
         this.combatTimerController = new CombatTimerController(this);
         this.damageTimerController = new DamageTimerController(this);
         this.deathCrateController = new DeathCrateController(this);
         this.hologramController = new HologramController(this);
+        this.actionBarController = new ActionBarController(20, this);
+
         //register Listener for Combat detection
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this.deathCrateController, this.combatTimerController, this.damageTimerController, this.hologramController), this);
 
+        this.actionBarController.runUpdateTimer();
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Enabled NoPvPLog");
     }
@@ -69,5 +79,18 @@ public final class Nopvplog extends NoPvPLogTemplate {
     @Override
     public HologramController getHologramController() {
         return this.hologramController;
+    }
+
+    @Override
+    public Timer<? extends EntityDamageEvent> getLongerTimer(UUID playerId) {
+
+        DamageTimer damageTimer = (DamageTimer) this.getDTController().getTimer(playerId);
+        CombatTimerPvp combatTimer = (CombatTimerPvp) this.getCTController().getTimer(playerId);
+
+        if (damageTimer.timeLeftOnTimer() < combatTimer.timeLeftOnTimer()) {
+            return combatTimer;
+        } else {
+            return damageTimer;
+        }
     }
 }

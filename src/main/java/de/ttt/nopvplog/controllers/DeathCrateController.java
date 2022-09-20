@@ -17,10 +17,20 @@ public class DeathCrateController {
     private final Material containerType;
     private final NoPvPLogTemplate template;
 
+    /**
+     * Creates a new DeathCrateController.
+     *
+     * @param template the plugin instance
+     */
     public DeathCrateController(NoPvPLogTemplate template) {
+
         this.template = template;
 
         String containerName = template.getConfig().getString("DeathCrateType");
+
+        if (containerName == null || containerName.equalsIgnoreCase("")) {
+            containerName = "BARREL";
+        }
 
         try {
 
@@ -31,10 +41,16 @@ public class DeathCrateController {
         }
     }
 
+    /**
+     * @return The container type specified by the config file
+     */
     public Material getContainerType() {
         return containerType;
     }
 
+    /**
+     * @return the javaplugin instance used to create this Controller
+     */
     public NoPvPLogTemplate getTemplate() {
         return template;
     }
@@ -74,7 +90,7 @@ public class DeathCrateController {
      * When executed the players inventory will be put into containers at his location <br>
      * Additionally the players location information will be broadcast to all players on the server
      *
-     * @param loggedOutPlayer
+     * @param loggedOutPlayer the player who logged out
      */
     public void executePvPLogLogic(Player loggedOutPlayer) {
         makeCrates(loggedOutPlayer.getUniqueId(), loggedOutPlayer.getLocation());

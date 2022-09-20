@@ -26,6 +26,10 @@ public class DeathCrate {
 
     }
 
+    public DeathCrateController getController() {
+        return controller;
+    }
+
     public UUID getOwner() {
         return owner;
     }
@@ -69,7 +73,7 @@ public class DeathCrate {
     /**
      * Fills the main (bottom) crate from the players inventory
      *
-     * @param player
+     * @param player the player to fill the main inventory from
      */
     private void fillMain(Player player) {
 
@@ -85,7 +89,7 @@ public class DeathCrate {
     /**
      * Fills the equipment (top) crate from the players hotbar and Armor
      *
-     * @param player
+     * @param player the player to fill the quipment inventory from
      */
     private void fillEquip(Player player) {
 

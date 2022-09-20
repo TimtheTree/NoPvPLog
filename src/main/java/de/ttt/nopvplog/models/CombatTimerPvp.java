@@ -1,8 +1,10 @@
 package de.ttt.nopvplog.models;
 
+import de.ttt.nopvplog.controllers.TimerController;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.UUID;
 
@@ -10,8 +12,8 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
     private UUID enemyReference;
 
-    public CombatTimerPvp(UUID playerReference) {
-        super(playerReference);
+    public CombatTimerPvp(UUID playerReference, TimerController<? extends EntityDamageEvent> timerController) {
+        super(playerReference, timerController);
     }
 
     public void setEnemyReference(UUID enemyReference) {
@@ -33,8 +35,16 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
      * @return the distance
      */
     public long playerEnemyDistance() {
+
+        if (playerReference == null
+                || enemyReference == null) return Long.MAX_VALUE;
+
         Player player = Bukkit.getPlayer(playerReference);
         Player enemy = Bukkit.getPlayer(enemyReference);
+
+        if (player == null
+                || enemy == null) return Long.MAX_VALUE;
+
         return (long) player.getLocation().distance(enemy.getLocation());
     }
 
