@@ -20,6 +20,10 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         this.enemyReference = enemyReference;
     }
 
+    public UUID getEnemyReference() {
+        return enemyReference;
+    }
+
     /**
      * @param timerDuration               The time a player has to wait before being out of combat
      * @param minimumDeactivationDistance The distance the player has to be away from their enemy in order to be out of combat
