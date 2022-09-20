@@ -4,7 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -13,12 +14,14 @@ public class Hologram {
 
     //TODO add despawning to armorstands
 
-    private Player owner;
+    private String name;
+    private Location location;
     private ArmorStand mainTextAS;
     private ArmorStand secondTextAS;
 
-    public Hologram(Player owner) {
-        this.owner = owner;
+    public Hologram(PlayerQuitEvent event) {
+        this.name = event.getPlayer().getName();
+        this.location = event.getPlayer().getLocation();
     }
 
     public @NotNull UUID getMainTextASUUID() {
@@ -38,8 +41,6 @@ public class Hologram {
      * @param secondText      the lower text
      */
     public void createHologram(ChatColor mainTextColor, ChatColor secondTextColor, String mainText, String secondText) {
-        Location location = this.owner.getLocation().toCenterLocation();
-        String name = this.owner.getName();
 
         createMainText(location, name, mainTextColor, mainText);
 

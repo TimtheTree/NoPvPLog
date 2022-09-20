@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -60,13 +61,19 @@ public class DeathCrateController {
      *
      * @param ownerId the player to rob for the crates
      */
-    private void makeCrates(UUID ownerId, Location location) {
+    private Block[] makeCrates(UUID ownerId, Location location) {
+
+        Block[] array = new Block[2];
 
         DeathCrate crate = new DeathCrate(ownerId, this);
 
         crate.createCrates(location, containerType);
         crate.fillCrates(ownerId);
 
+        array[0] = crate.getBlockBottom();
+        array[1] = crate.getBlockTop();
+
+        return array;
     }
 
     /**
@@ -91,10 +98,13 @@ public class DeathCrateController {
      * Additionally the players location information will be broadcast to all players on the server
      *
      * @param loggedOutPlayer the player who logged out
+     * @return returns an Array of the crates which are created by this
      */
-    public void executePvPLogLogic(Player loggedOutPlayer) {
-        makeCrates(loggedOutPlayer.getUniqueId(), loggedOutPlayer.getLocation());
+    public Block[] executePvPLogLogic(Player loggedOutPlayer) {
+
         postCoordsAndInfo(loggedOutPlayer);
+
+        return makeCrates(loggedOutPlayer.getUniqueId(), loggedOutPlayer.getLocation());
     }
 
 }

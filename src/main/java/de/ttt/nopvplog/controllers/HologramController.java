@@ -2,11 +2,18 @@ package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.exceptions.HologramTextColorException;
+import de.ttt.nopvplog.models.DeathCrate;
 import de.ttt.nopvplog.models.Hologram;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.block.Block;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.metadata.FixedMetadataValue;
+
+import java.util.UUID;
 
 public class HologramController {
+
+    private static final String KEY = "UUIDKey";
 
     private final NoPvPLogTemplate template;
     private Hologram hologram;
@@ -19,25 +26,40 @@ public class HologramController {
         return template;
     }
 
-    public String[] getHologramId() {
-        String[] array = new String[2];
-        array[0] = hologram.getMainTextASUUID().toString();
-        array[1] = hologram.getSecondTextASUUID().toString();
+    public static String getMetadataKey() {
+        return KEY;
+    }
+
+    private UUID[] getHologramId() {
+        UUID[] array = new UUID[2];
+        array[0] = hologram.getMainTextASUUID();
+        array[1] = hologram.getSecondTextASUUID();
         return array;
     }
 
     /**
      * Creates flying text above the passed players position
      *
-     * @param owner the Player mentioned in the flying text and who's position it's above
+     * @param event the event when a player logs out
      */
-    public void createHologram(Player owner) {
-        hologram = new Hologram(owner);
+    public void createHologram(PlayerQuitEvent event, Block[] blocks) {
+        hologram = new Hologram(event);
 
         String mainText = template.getConfig().getString("HologramMainText");
         String secondText = template.getConfig().getString("HologramSecondText");
 
         hologram.createHologram(mainTextColor(), secondTextColor(), mainText, secondText);
+
+
+        for (Block block : blocks) {
+            block.setMetadata(KEY, new FixedMetadataValue(template, getHologramId()));
+        }
+    }
+
+    public void removeHologram(UUID[] uuids) {
+        UUID mASID = uuids[0];
+        UUID sASID = uuids[1];
+        hologram.removeHologram(mASID, sASID);
     }
 
     /**

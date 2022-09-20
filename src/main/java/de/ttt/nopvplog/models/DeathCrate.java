@@ -18,12 +18,22 @@ public class DeathCrate {
     private final DeathCrateController controller;
     private Inventory mainInv;
     private Inventory equipInv;
+    private Block blockBottom;
+    private Block blockTop;
 
     public DeathCrate(UUID owner, DeathCrateController controller) {
 
         this.owner = owner;
         this.controller = controller;
 
+    }
+
+    public Block getBlockBottom() {
+        return blockBottom;
+    }
+
+    public Block getBlockTop() {
+        return blockTop;
     }
 
     public DeathCrateController getController() {
@@ -38,6 +48,9 @@ public class DeathCrate {
 
         Block blockBottom = location.getWorld().getBlockAt(location);
         Block blockTop = blockBottom.getRelative(BlockFace.UP);
+
+        this.blockBottom = blockBottom;
+        this.blockTop = blockTop;
 
         blockBottom.setType(containerType);
         blockTop.setType(containerType);
