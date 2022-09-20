@@ -16,12 +16,12 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         super(playerReference, timerController);
     }
 
-    public void setEnemyReference(UUID enemyReference) {
-        this.enemyReference = enemyReference;
-    }
-
     public UUID getEnemyReference() {
         return enemyReference;
+    }
+
+    public void setEnemyReference(UUID enemyReference) {
+        this.enemyReference = enemyReference;
     }
 
     /**

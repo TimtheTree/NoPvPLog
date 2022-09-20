@@ -41,7 +41,7 @@ public final class Nopvplog extends NoPvPLogTemplate {
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this), this);
 
-        if(!blockModificationDuringCombat){
+        if (!blockModificationDuringCombat) {
             Bukkit.getPluginManager().registerEvents(new BlockModificationDetector(this), this);
         }
 
@@ -81,7 +81,6 @@ public final class Nopvplog extends NoPvPLogTemplate {
     }
 
     /**
-     *
      * @param playerId the player to check
      * @return the timer related to this player which has more time left on the clock
      */

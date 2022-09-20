@@ -18,6 +18,7 @@ public class DamageTimer extends Timer<EntityDamageEvent> {
 
     /**
      * Sets the time of last damage to the current time
+     *
      * @param event the event to verify that the update is required
      */
     public void update(EntityDamageEvent event) {
