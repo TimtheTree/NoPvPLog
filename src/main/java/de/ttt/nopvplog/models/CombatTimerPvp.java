@@ -16,21 +16,19 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         super(playerReference, timerController);
     }
 
-    public void setEnemyReference(UUID enemyReference) {
-        this.enemyReference = enemyReference;
-    }
-
     public UUID getEnemyReference() {
         return enemyReference;
     }
 
+    public void setEnemyReference(UUID enemyReference) {
+        this.enemyReference = enemyReference;
+    }
+
     /**
-     * @param timerDuration               The time a player has to wait before being out of combat
-     * @param minimumDeactivationDistance The distance the player has to be away from their enemy in order to be out of combat
      * @return true if the combat timer is over AND the enemy players distance is greater than the minimum deactivation distance
      */
-    public boolean isOutOfCombat(long timerDuration, long minimumDeactivationDistance) {
-        return timePassed() > timerDuration && playerEnemyDistance() > minimumDeactivationDistance;
+    public boolean isOutOfCombat() {
+        return timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
     }
 
     /**

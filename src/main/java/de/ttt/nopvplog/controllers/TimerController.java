@@ -20,7 +20,8 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     /**
      * Gets values for itself from the config gotten from the NoPvPLogTemplate passed in
-     * @param template the template used to get values
+     *
+     * @param template  the template used to get values
      * @param timerPath the path needed to get the time for this controller
      */
     protected TimerController(NoPvPLogTemplate template, String timerPath) {
@@ -41,7 +42,6 @@ public abstract class TimerController<T extends EntityDamageEvent> {
     public abstract long getMinimumDeactivationDistance();
 
     /**
-     *
      * @param playerId the player to calculate for
      * @return The time left on the timer. Calculates using the timers duration and the time that has already passed
      */
@@ -61,6 +61,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     /**
      * Adds the player that joined to the controller
+     *
      * @param event the event to add the player from
      */
     public void addEntry(PlayerJoinEvent event) {
@@ -69,6 +70,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     /**
      * Adds the player that was damaged to the controller
+     *
      * @param event the event to add the player from
      */
     public void addEntry(EntityDamageByEntityEvent event) {
@@ -79,6 +81,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     /**
      * Adds the specified player to the controller
+     *
      * @param playerId the player to add
      */
     protected abstract void addEntry(UUID playerId);
@@ -86,6 +89,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
     /**
      * Gets the timer associated with the player id passed in. <br>
      * If the timer does not exist, creates one before returning the newly created timer
+     *
      * @param playerId the player to get the timer for
      * @return the timer found or created, never null
      */
