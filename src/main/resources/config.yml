@@ -4,6 +4,6 @@ CombatTimerDuration: 60
 MinimumDeactivationDistancePvP: 50
   #Distance to an Enemy
 
-BanTimeOnLeave: 180
+BanTimeOnLeave: 180 #in seconds
 
 DeathCrateType: BARREL
