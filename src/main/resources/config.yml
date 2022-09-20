@@ -7,3 +7,5 @@ MinimumDeactivationDistancePvP: 50
 BanTimeOnLeave: 180 #in seconds
 
 DeathCrateType: BARREL
+
+BlockModificationWhileInCombat: false
