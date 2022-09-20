@@ -8,4 +8,4 @@ BanTimeOnLeave: 180 #in seconds
 
 DeathCrateType: BARREL
 
-BlockModificationWhileInCombat: false
+BlockModificationWhileInCombat: false #False means that block modification is disabled during combat
