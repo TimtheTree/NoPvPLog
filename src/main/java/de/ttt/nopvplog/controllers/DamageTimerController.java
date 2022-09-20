@@ -42,7 +42,7 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
         DamageTimer damageTimer = (DamageTimer) this.getTimer(playerId);
 
-        return !damageTimer.isOutOfCombat(this.timerDuration, 0);
+        return !damageTimer.isOutOfCombat();
     }
 
     /**

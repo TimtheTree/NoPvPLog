@@ -12,8 +12,8 @@ public class DamageTimer extends Timer<EntityDamageEvent> {
     }
 
     @Override
-    public boolean isOutOfCombat(long timerDuration, long minimumDeactivationDistance) {
-        return (timePassed() > timerDuration);
+    public boolean isOutOfCombat() {
+        return (timePassed() > this.getTimerDuration());
     }
 
     /**

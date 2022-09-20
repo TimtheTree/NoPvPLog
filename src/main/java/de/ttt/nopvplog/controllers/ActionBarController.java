@@ -31,7 +31,7 @@ public class ActionBarController {
 
             Timer<? extends EntityDamageEvent> timer = this.template.getLongerTimer(player.getUniqueId());
 
-            if (timer.isOutOfCombat(timer.getTimerDuration(), timer.getMinimumDeactivationDistance())) {
+            if (timer.isOutOfCombat()) {
                 continue;
             }
 

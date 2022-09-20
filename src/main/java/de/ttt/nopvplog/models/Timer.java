@@ -64,7 +64,7 @@ public abstract class Timer<T extends EntityDamageEvent> {
         return this.timerController.getTimeLeft(this.playerReference);
     }
 
-    public abstract boolean isOutOfCombat(long timerDuration, long minimumDeactivationDistance);
+    public abstract boolean isOutOfCombat();
 
     public abstract void update(T event);
 

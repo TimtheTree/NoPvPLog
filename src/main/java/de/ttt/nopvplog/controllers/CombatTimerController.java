@@ -35,7 +35,7 @@ public class CombatTimerController extends TimerController<EntityDamageByEntityE
 
         CombatTimerPvp combatTimer = (CombatTimerPvp) this.getTimer(playerId);
 
-        return !combatTimer.isOutOfCombat(this.timerDuration, this.minimumDeactivationDistance);
+        return !combatTimer.isOutOfCombat();
     }
 
     /**
