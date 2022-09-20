@@ -12,6 +12,7 @@ public abstract class Timer<T extends EntityDamageEvent> {
     private final TimerController<? extends EntityDamageEvent> timerController;
     private final long timerDuration;
     private final long minimumDeactivationDistance;
+    private EntityDamageEvent.DamageCause damageCause;
 
     protected Timer(UUID playerReference, TimerController<? extends EntityDamageEvent> timerController) {
         this.playerReference = playerReference;
@@ -23,6 +24,13 @@ public abstract class Timer<T extends EntityDamageEvent> {
 
     public void setLastDamage(long lastDamage) {
         this.lastDamage = lastDamage;
+    }
+    public void setDamageCause(EntityDamageEvent.DamageCause cause){
+        this.damageCause = cause;
+    }
+
+    public EntityDamageEvent.DamageCause getDamageCause() {
+        return damageCause;
     }
 
     public long getLastDamage() {
