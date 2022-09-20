@@ -36,7 +36,7 @@ public final class Nopvplog extends NoPvPLogTemplate {
 
         //register Listener for Combat detection
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
-        Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this.deathCrateController, this.combatTimerController, this.damageTimerController), this);
+        Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this), this);
 
         this.actionBarController.runUpdateTimer();
 

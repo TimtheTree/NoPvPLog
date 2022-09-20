@@ -42,8 +42,6 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
         DamageTimer damageTimer = (DamageTimer) this.getTimer(playerId);
 
-        if (damageTimer == null) addEntry(playerId);
-        damageTimer = (DamageTimer) this.getTimer(playerId);
         return !damageTimer.isOutOfCombat(this.timerDuration, 0);
     }
 
@@ -58,12 +56,9 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
             DamageTimer timer = (DamageTimer) this.getTimer(playerId);
 
-            if (timer == null) {
-                addEntry(playerId);
-                timer = (DamageTimer) this.getTimer(playerId);
-            }
-
             timer.update(event);
+
+            timer.setDamageCause(event.getCause());
         }
     }
 
