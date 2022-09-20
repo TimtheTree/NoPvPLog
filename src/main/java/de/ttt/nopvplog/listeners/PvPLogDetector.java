@@ -63,6 +63,11 @@ public class PvPLogDetector implements Listener {
 
     }
 
+    /**
+     * renders the entire ban message and returns it
+     * @param event the event to render the message for
+     * @return A String containing all important information about the logging player
+     */
     private String renderBanMessage(PlayerQuitEvent event) {
 
         String banMessage;
