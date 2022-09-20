@@ -48,13 +48,13 @@ public class PvPLogDetector implements Listener {
 
         event.getPlayer().setHealth(0.0);
 
-
-        // Bans the player for the configured amount of seconds
-        event.getPlayer().banPlayer(renderBanMessage(event),
-                new Date(System.currentTimeMillis() + this.banTimeOnLeave * 1000L),
-                "NoPvPLog",
-                true);
-
+        if (!event.getPlayer().isBanned()) {
+            // Bans the player for the configured amount of seconds
+            event.getPlayer().banPlayer(renderBanMessage(event),
+                    new Date(System.currentTimeMillis() + this.banTimeOnLeave * 1000L),
+                    "NoPvPLog",
+                    true);
+        }
     }
 
     private boolean playerIsInCombat(UUID playerId) {
@@ -65,6 +65,7 @@ public class PvPLogDetector implements Listener {
 
     /**
      * renders the entire ban message and returns it
+     *
      * @param event the event to render the message for
      * @return A String containing all important information about the logging player
      */
