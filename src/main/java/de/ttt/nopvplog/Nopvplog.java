@@ -4,6 +4,7 @@ import de.ttt.nopvplog.controllers.ActionBarController;
 import de.ttt.nopvplog.controllers.CombatTimerController;
 import de.ttt.nopvplog.controllers.DamageTimerController;
 import de.ttt.nopvplog.controllers.DeathCrateController;
+import de.ttt.nopvplog.listeners.BlockModificationDetector;
 import de.ttt.nopvplog.listeners.CombatDetector;
 import de.ttt.nopvplog.listeners.PvPLogDetector;
 import de.ttt.nopvplog.models.CombatTimerPvp;
@@ -34,9 +35,15 @@ public final class Nopvplog extends NoPvPLogTemplate {
         this.deathCrateController = new DeathCrateController(this);
         this.actionBarController = new ActionBarController(20, this);
 
+        boolean blockModificationDuringCombat = this.getConfig().getBoolean("BlockModificationWhileInCombat");
+
         //register Listener for Combat detection
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this), this);
+
+        if(!blockModificationDuringCombat){
+            Bukkit.getPluginManager().registerEvents(new BlockModificationDetector(this), this);
+        }
 
         this.actionBarController.runUpdateTimer();
 
@@ -73,6 +80,11 @@ public final class Nopvplog extends NoPvPLogTemplate {
         return this.deathCrateController;
     }
 
+    /**
+     *
+     * @param playerId the player to check
+     * @return the timer related to this player which has more time left on the clock
+     */
     @Override
     public Timer<? extends EntityDamageEvent> getLongerTimer(UUID playerId) {
 
