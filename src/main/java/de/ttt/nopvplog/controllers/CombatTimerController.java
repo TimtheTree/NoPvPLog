@@ -44,14 +44,21 @@ public class CombatTimerController extends TimerController<EntityDamageByEntityE
      * @param event the event to gather the date for the update from
      */
     public void updateEntry(EntityDamageByEntityEvent event) {
+
         if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
-            UUID playerId = event.getEntity().getUniqueId();
 
-            Timer<EntityDamageByEntityEvent> timer = getTimer(playerId);
+            UUID[] players = new UUID[2];
+            players[0] = event.getEntity().getUniqueId();
+            players[1] = event.getDamager().getUniqueId();
 
-            timer.update(event);
+            for(UUID id : players){
 
-            timer.setDamageCause(event.getCause());
+                Timer<EntityDamageByEntityEvent> timer = getTimer(id);
+
+                timer.update(event);
+
+                timer.setDamageCause(event.getCause());
+            }
         }
     }
 }
