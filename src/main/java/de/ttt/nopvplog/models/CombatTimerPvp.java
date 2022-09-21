@@ -28,7 +28,13 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
      * @return true if the combat timer is over AND the enemy players distance is greater than the minimum deactivation distance
      */
     public boolean isOutOfCombat() {
-        return timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
+        boolean isOutOfCombat = timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
+
+        if(isOutOfCombat) {
+            this.setEnemyReference(null);
+        }
+
+        return isOutOfCombat;
     }
 
     /**
