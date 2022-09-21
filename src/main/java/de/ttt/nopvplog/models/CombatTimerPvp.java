@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
@@ -69,5 +71,22 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         } else {
             setEnemyReference(event.getEntity().getUniqueId());
         }
+    }
+
+    /**
+     * @return A list of timers which have the owner of this timer as an enemy reference
+     */
+    public List<UUID> getRelatedTimers() {
+
+        ArrayList<UUID> result = new ArrayList<>();
+
+        for(Timer<? extends EntityDamageEvent> timer : this.getTimerController().getAllTimers()) {
+
+            if(timer instanceof CombatTimerPvp combatTimer
+            && combatTimer.getEnemyReference().equals(this.getPlayerReference())) {
+                result.add(combatTimer.getPlayerReference());
+            }
+        }
+        return result;
     }
 }
