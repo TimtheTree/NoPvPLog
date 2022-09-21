@@ -28,28 +28,28 @@ public class PvPLogDetector implements Listener {
 
 
     public PvPLogDetector(NoPvPLogTemplate template) {
-            this.template = template;
-            this.crateController = template.getDeathCrateController();
-            this.combatTimerController = template.getCTController();
-            this.damageTimerController = template.getDTController();
-            this.hologramController = template.getHologramController();
-            this.banTimeOnLeave = template.getConfig().getInt("BanTimeOnLeave");
-        }
+        this.template = template;
+        this.crateController = template.getDeathCrateController();
+        this.combatTimerController = template.getCTController();
+        this.damageTimerController = template.getDTController();
+        this.hologramController = template.getHologramController();
+        this.banTimeOnLeave = template.getConfig().getInt("BanTimeOnLeave");
+    }
 
-        public int getBanTimeOnLeave () {
-            return banTimeOnLeave;
-        }
+    public int getBanTimeOnLeave() {
+        return banTimeOnLeave;
+    }
 
-        @EventHandler
-        public void onPlayerLeave (PlayerQuitEvent event){
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
 
-            if (!playerIsInCombat(event.getPlayer().getUniqueId())) return;
+        if (!playerIsInCombat(event.getPlayer().getUniqueId())) return;
 
-            this.hologramController.createHologram(event, this.crateController.executePvPLogLogic(event.getPlayer()));
+        this.hologramController.createHologram(event, this.crateController.executePvPLogLogic(event.getPlayer()));
 
-            event.getPlayer().getInventory().clear();
+        event.getPlayer().getInventory().clear();
 
-            event.getPlayer().setHealth(0.0);
+        event.getPlayer().setHealth(0.0);
 
         if (!event.getPlayer().isBanned()) {
             // Bans the player for the configured amount of seconds
@@ -58,13 +58,13 @@ public class PvPLogDetector implements Listener {
                     "NoPvPLog",
                     true);
         }
-        }
+    }
 
-        private boolean playerIsInCombat (UUID playerId){
+    private boolean playerIsInCombat(UUID playerId) {
 
-            return this.combatTimerController.detectCombat(playerId) || this.damageTimerController.detectCombat(playerId);
+        return this.combatTimerController.detectCombat(playerId) || this.damageTimerController.detectCombat(playerId);
 
-        }
+    }
 
     /**
      * renders the entire ban message and returns it
@@ -100,4 +100,4 @@ public class PvPLogDetector implements Listener {
 
         return banMessage;
     }
-    }
+}

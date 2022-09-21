@@ -20,7 +20,7 @@ public class CrateBreakDetector implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
 
-        if(event.isCancelled()) return;
+        if (event.isCancelled()) return;
 
         if (event.getBlock().hasMetadata(HologramController.getMetadataKey())) {
             template.getHologramController().removeHologram((UUID[]) event.getBlock().getMetadata(HologramController.getMetadataKey()).get(0).value(), event);

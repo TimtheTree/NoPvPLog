@@ -1,12 +1,10 @@
 package de.ttt.nopvplog.models;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,14 +14,28 @@ public class Hologram {
 
     //TODO add despawning to armorstands
 
-    private String name;
-    private Location location;
+    private final String name;
+    private final Location location;
     private ArmorStand mainTextAS;
     private ArmorStand secondTextAS;
 
     public Hologram(PlayerQuitEvent event) {
         this.name = event.getPlayer().getName();
         this.location = event.getPlayer().getLocation();
+    }
+
+    public static void removeHologram(UUID mASID, UUID sASID, World world) {
+
+        Entity mainArmorStand = world.getEntity(mASID);
+        Entity secondArmorStand = world.getEntity(sASID);
+
+        if (mainArmorStand != null) {
+            mainArmorStand.remove();
+        }
+
+        if (secondArmorStand != null) {
+            secondArmorStand.remove();
+        }
     }
 
     public @NotNull UUID getMainTextASUUID() {
@@ -48,20 +60,6 @@ public class Hologram {
 
         createSecondText(location, secondTextColor, secondText);
 
-    }
-
-    public static void removeHologram(UUID mASID, UUID sASID, World world) {
-
-        Entity mainArmorStand = world.getEntity(mASID);
-        Entity secondArmorStand = world.getEntity(sASID);
-
-        if(mainArmorStand != null) {
-            mainArmorStand.remove();
-        }
-
-        if(secondArmorStand != null) {
-            secondArmorStand.remove();
-        }
     }
 
     /**

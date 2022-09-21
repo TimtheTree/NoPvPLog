@@ -2,7 +2,6 @@ package de.ttt.nopvplog.controllers;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.exceptions.HologramTextColorException;
-import de.ttt.nopvplog.models.DeathCrate;
 import de.ttt.nopvplog.models.Hologram;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -23,12 +22,12 @@ public class HologramController {
         this.template = template;
     }
 
-    public NoPvPLogTemplate getTemplate() {
-        return template;
-    }
-
     public static String getMetadataKey() {
         return KEY;
+    }
+
+    public NoPvPLogTemplate getTemplate() {
+        return template;
     }
 
     private UUID[] getHologramId() {
