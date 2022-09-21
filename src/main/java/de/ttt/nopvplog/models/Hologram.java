@@ -50,9 +50,9 @@ public class Hologram {
 
     public void removeHologram(UUID mASID, UUID sASID) {
 
-        Bukkit.getServer().getWorld(mASID).getEntity(mASID).remove();
+        this.location.getWorld().getEntity(mASID).remove();
 
-        Bukkit.getServer().getWorld(sASID).getEntity(sASID).remove();
+        this.location.getWorld().getEntity(sASID).remove();
 
     }
 
