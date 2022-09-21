@@ -57,6 +57,11 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
      */
     public void update(EntityDamageByEntityEvent event) {
         setLastDamage(System.currentTimeMillis());
-        setEnemyReference(event.getDamager().getUniqueId());
+
+        if (!event.getDamager().getUniqueId().equals(this.playerReference)) {
+            setEnemyReference(event.getDamager().getUniqueId());
+        } else {
+            setEnemyReference(event.getEntity().getUniqueId());
+        }
     }
 }
