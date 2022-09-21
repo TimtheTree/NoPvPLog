@@ -3,6 +3,7 @@ package de.ttt.nopvplog.models;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -48,11 +49,11 @@ public class Hologram {
 
     }
 
-    public void removeHologram(UUID mASID, UUID sASID) {
+    public static void removeHologram(UUID mASID, UUID sASID, World world) {
 
-        this.location.getWorld().getEntity(mASID).remove();
+        world.getEntity(mASID).remove();
 
-        this.location.getWorld().getEntity(sASID).remove();
+        world.getEntity(sASID).remove();
 
     }
 

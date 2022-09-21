@@ -6,6 +6,7 @@ import de.ttt.nopvplog.models.DeathCrate;
 import de.ttt.nopvplog.models.Hologram;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -56,10 +57,10 @@ public class HologramController {
         }
     }
 
-    public void removeHologram(UUID[] uuids) {
+    public void removeHologram(UUID[] uuids, BlockBreakEvent event) {
         UUID mASID = uuids[0];
         UUID sASID = uuids[1];
-        hologram.removeHologram(mASID, sASID);
+        Hologram.removeHologram(mASID, sASID, event.getBlock().getWorld());
     }
 
     /**
