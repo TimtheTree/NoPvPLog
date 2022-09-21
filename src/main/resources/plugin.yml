@@ -1,6 +1,10 @@
 name: NoPvPLog
 version: '${project.version}'
-main: de.ttt.nopvplog.Nopvplog
+main: de.ttt.nopvplog.NoPvPLog
 api-version: 1.19
 authors: [ Tim_the_Tree ]
 description: Prevent players from logging out while PvPing
+commands:
+  combatremove:
+    description: Removes the Combat status from a player
+    usage: /combatremove

@@ -1,5 +1,6 @@
 package de.ttt.nopvplog;
 
+import de.ttt.nopvplog.commands.CombatRemoveCommand;
 import de.ttt.nopvplog.controllers.ActionBarController;
 import de.ttt.nopvplog.controllers.CombatTimerController;
 import de.ttt.nopvplog.controllers.DamageTimerController;
@@ -20,7 +21,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.io.File;
 import java.util.UUID;
 
-public final class Nopvplog extends NoPvPLogTemplate {
+public final class NoPvPLog extends NoPvPLogTemplate {
 
     private CombatTimerController combatTimerController;
     private DamageTimerController damageTimerController;
@@ -50,6 +51,8 @@ public final class Nopvplog extends NoPvPLogTemplate {
         if (!blockModificationDuringCombat) {
             Bukkit.getPluginManager().registerEvents(new BlockModificationDetector(this), this);
         }
+
+        this.getCommand("combatremove").setExecutor(new CombatRemoveCommand(this));
 
         this.actionBarController.runUpdateTimer();
 
