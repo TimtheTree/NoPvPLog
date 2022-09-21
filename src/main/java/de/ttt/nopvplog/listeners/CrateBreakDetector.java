@@ -9,11 +9,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.UUID;
 
-public class CrateBrakeDetector implements Listener {
+public class CrateBreakDetector implements Listener {
 
     private final NoPvPLogTemplate template;
 
-    public CrateBrakeDetector(NoPvPLogTemplate template) {
+    public CrateBreakDetector(NoPvPLogTemplate template) {
         this.template = template;
     }
 

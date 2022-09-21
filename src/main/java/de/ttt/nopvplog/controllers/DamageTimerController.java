@@ -15,6 +15,7 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
     /**
      * Gets the minimum deactivation distance.
+     *
      * @return -1, always.
      */
     @Override
@@ -24,11 +25,12 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
     /**
      * Adds a new entry for the player specified by the passed in UUID, only if there was no entry before
+     *
      * @param playerId UUID of the player to create the entry for
      */
     @Override
     public void addEntry(UUID playerId) {
-        if(this.timerHashMap.get(playerId) != null) return;
+        if (this.timerHashMap.get(playerId) != null) return;
         this.timerHashMap.put(playerId, new DamageTimer(playerId, this));
     }
 
@@ -42,9 +44,7 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
         DamageTimer damageTimer = (DamageTimer) this.getTimer(playerId);
 
-        if (damageTimer == null) addEntry(playerId);
-        damageTimer = (DamageTimer) this.getTimer(playerId);
-        return !damageTimer.isOutOfCombat(this.timerDuration, 0);
+        return !damageTimer.isOutOfCombat();
     }
 
     /**
@@ -58,12 +58,9 @@ public class DamageTimerController extends TimerController<EntityDamageEvent> {
 
             DamageTimer timer = (DamageTimer) this.getTimer(playerId);
 
-            if (timer == null) {
-                addEntry(playerId);
-                timer = (DamageTimer) this.getTimer(playerId);
-            }
-
             timer.update(event);
+
+            timer.setDamageCause(event.getCause());
         }
     }
 

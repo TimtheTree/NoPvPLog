@@ -12,7 +12,9 @@ import java.util.UUID;
 
 public abstract class NoPvPLogTemplate extends JavaPlugin {
     public abstract CombatTimerController getCTController();
+
     public abstract DamageTimerController getDTController();
+
     public abstract DeathCrateController getDeathCrateController();
 
     public abstract Timer<? extends EntityDamageEvent> getLongerTimer(UUID playerId);

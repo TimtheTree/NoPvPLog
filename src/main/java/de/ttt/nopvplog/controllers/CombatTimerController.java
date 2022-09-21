@@ -35,9 +35,7 @@ public class CombatTimerController extends TimerController<EntityDamageByEntityE
 
         CombatTimerPvp combatTimer = (CombatTimerPvp) this.getTimer(playerId);
 
-        if (combatTimer == null) addEntry(playerId);
-        combatTimer = (CombatTimerPvp) this.getTimer(playerId);
-        return !combatTimer.isOutOfCombat(this.timerDuration, this.minimumDeactivationDistance);
+        return !combatTimer.isOutOfCombat();
     }
 
     /**
@@ -46,17 +44,21 @@ public class CombatTimerController extends TimerController<EntityDamageByEntityE
      * @param event the event to gather the date for the update from
      */
     public void updateEntry(EntityDamageByEntityEvent event) {
+
         if (event.getEntityType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.PLAYER) {
-            UUID playerId = event.getEntity().getUniqueId();
 
-            Timer<EntityDamageByEntityEvent> timer = getTimer(playerId);
+            UUID[] players = new UUID[2];
+            players[0] = event.getEntity().getUniqueId();
+            players[1] = event.getDamager().getUniqueId();
 
-            if (timer == null) {
-                addEntry(event);
-                timer = getTimer(playerId);
+            for (UUID id : players) {
+
+                Timer<EntityDamageByEntityEvent> timer = getTimer(id);
+
+                timer.update(event);
+
+                timer.setDamageCause(event.getCause());
             }
-
-            timer.update(event);
         }
     }
 }

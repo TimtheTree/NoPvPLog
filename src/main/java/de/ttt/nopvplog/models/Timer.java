@@ -8,10 +8,11 @@ import java.util.UUID;
 public abstract class Timer<T extends EntityDamageEvent> {
 
     protected final UUID playerReference;
-    protected long lastDamage;
     private final TimerController<? extends EntityDamageEvent> timerController;
     private final long timerDuration;
     private final long minimumDeactivationDistance;
+    protected long lastDamage;
+    private EntityDamageEvent.DamageCause damageCause;
 
     protected Timer(UUID playerReference, TimerController<? extends EntityDamageEvent> timerController) {
         this.playerReference = playerReference;
@@ -21,12 +22,20 @@ public abstract class Timer<T extends EntityDamageEvent> {
         this.minimumDeactivationDistance = this.timerController.getMinimumDeactivationDistance();
     }
 
-    public void setLastDamage(long lastDamage) {
-        this.lastDamage = lastDamage;
+    public EntityDamageEvent.DamageCause getDamageCause() {
+        return damageCause;
+    }
+
+    public void setDamageCause(EntityDamageEvent.DamageCause cause) {
+        this.damageCause = cause;
     }
 
     public long getLastDamage() {
         return this.lastDamage;
+    }
+
+    public void setLastDamage(long lastDamage) {
+        this.lastDamage = lastDamage;
     }
 
     public UUID getPlayerReference() {
@@ -52,14 +61,13 @@ public abstract class Timer<T extends EntityDamageEvent> {
         return (System.currentTimeMillis() - this.lastDamage) / 1000;
     }
 
-    public long timeLeftOnTimer(){
+    public long timeLeftOnTimer() {
         return this.timerController.getTimeLeft(this.playerReference);
     }
 
-    public abstract boolean isOutOfCombat(long timerDuration, long minimumDeactivationDistance);
+    public abstract boolean isOutOfCombat();
 
     public abstract void update(T event);
-
 
 
 }
