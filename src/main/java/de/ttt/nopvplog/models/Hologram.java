@@ -71,7 +71,7 @@ public class Hologram {
      * @param text      the text
      */
     private void createMainText(Location location, String name, ChatColor textColor, String text) {
-        mainTextAS = location.getWorld().spawn(location.add(0, 0.1, 0), ArmorStand.class);
+        mainTextAS = location.getWorld().spawn(location.toCenterLocation().add(0, 0.1, 0), ArmorStand.class);
 
         mainTextAS.setGravity(false);
         mainTextAS.setCanPickupItems(false);
@@ -87,7 +87,7 @@ public class Hologram {
      * @param text      the text
      */
     private void createSecondText(Location location, ChatColor textColor, String text) {
-        secondTextAS = location.getWorld().spawn(location.subtract(0, 0.3, 0), ArmorStand.class);
+        secondTextAS = location.getWorld().spawn(location.toCenterLocation().subtract(0, 0.2, 0), ArmorStand.class);
 
         secondTextAS.setGravity(false);
         secondTextAS.setCanPickupItems(false);
