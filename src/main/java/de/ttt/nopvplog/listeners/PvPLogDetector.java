@@ -45,7 +45,7 @@ public class PvPLogDetector implements Listener {
 
         //TODO Kill player before they leave, apply playerIsInCombat logic from below, apply DeatCrateController logic before killing the player
 
-        if(!playerIsInCombat(event.getPlayer().getUniqueId())) return;
+        if (!playerIsInCombat(event.getPlayer().getUniqueId())) return;
 
         this.hologramController.createHologram(event, this.crateController.executePvPLogLogic(event.getPlayer()));
 

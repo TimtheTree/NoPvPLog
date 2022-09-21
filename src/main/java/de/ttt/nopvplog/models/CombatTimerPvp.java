@@ -30,7 +30,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
     public boolean isOutOfCombat() {
         boolean isOutOfCombat = timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
 
-        if(isOutOfCombat) {
+        if (isOutOfCombat) {
             this.setEnemyReference(null);
         }
 
