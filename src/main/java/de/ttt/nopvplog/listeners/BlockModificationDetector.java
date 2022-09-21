@@ -19,14 +19,14 @@ public class BlockModificationDetector implements Listener {
         this.template = template;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
         if (cancelModification(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
         if (cancelModification(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
