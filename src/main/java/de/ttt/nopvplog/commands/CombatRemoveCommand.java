@@ -25,8 +25,8 @@ public class CombatRemoveCommand implements TabExecutor {
         if (sender instanceof Player && sender.isOp() && args.length == 1) {
             UUID playerId = Bukkit.getPlayer(args[0]).getUniqueId();
 
-            template.getCTController().deleteEntry(playerId);
-            template.getDTController().deleteEntry(playerId);
+            template.getCTController().getTimer(playerId).leaveCombat();
+            template.getDTController().getTimer(playerId).leaveCombat();
 
             return true;
         }
