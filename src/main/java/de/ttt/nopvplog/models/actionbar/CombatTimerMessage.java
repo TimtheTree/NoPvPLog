@@ -31,6 +31,9 @@ public record CombatTimerMessage(String baseMessage, UUID ownerId) {
      * @return the fully rendered message
      */
     private String renderMessage(long time) {
+
+        if(time < 0) time = 0;
+
         return this.baseMessage.replaceAll(TIMER_PLACEHOLDER, String.valueOf(time));
     }
 }
