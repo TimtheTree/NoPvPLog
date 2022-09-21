@@ -45,7 +45,6 @@ public class PvPLogDetector implements Listener {
 
             if (!playerIsInCombat(event.getPlayer().getUniqueId())) return;
 
-            this.crateController.executePvPLogLogic(event.getPlayer());
             this.hologramController.createHologram(event, this.crateController.executePvPLogLogic(event.getPlayer()));
 
             event.getPlayer().getInventory().clear();
