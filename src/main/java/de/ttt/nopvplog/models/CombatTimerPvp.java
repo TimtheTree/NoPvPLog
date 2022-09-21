@@ -89,4 +89,30 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         }
         return result;
     }
+
+    /**
+     * @return A list of timers which have the owner of this timer as an enemy reference
+     */
+    public List<UUID> getRelatedTimers(int minimumDeactivationDistance) {
+
+        ArrayList<UUID> result = new ArrayList<>();
+        List<? extends Timer<? extends EntityDamageEvent>> input = this.getTimerController().getAllTimers();
+        input.remove(this);
+
+
+        for(Timer<? extends EntityDamageEvent> timer : input) {
+
+            if(timer instanceof CombatTimerPvp combatTimer
+                    && combatTimer.getEnemyReference().equals(this.getPlayerReference())) {
+
+                Player otherPlayer = Bukkit.getPlayer(combatTimer.getPlayerReference());
+                Player player = Bukkit.getPlayer(this.getPlayerReference());
+
+                if(otherPlayer != null && player != null && (otherPlayer.getLocation().distance(player.getLocation()) < minimumDeactivationDistance)){
+                    result.add(combatTimer.getPlayerReference());
+                }
+            }
+        }
+        return result;
+    }
 }

@@ -15,6 +15,8 @@ public record PlayerDeathDetector(NoPvPLogTemplate template) implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent event) {
 
+        //IDEE: nur enemy reference unsetten wenn der Timer danach keine timer mehr hat mit denen er in combat wäre
+
         if (event.isCancelled()) return;
 
         UUID playerId = event.getPlayer().getUniqueId();
@@ -22,16 +24,18 @@ public record PlayerDeathDetector(NoPvPLogTemplate template) implements Listener
         CombatTimerPvp combatTimerPvp = (CombatTimerPvp) this.template().getCTController().getTimer(playerId);
         DamageTimer damageTimer = (DamageTimer) this.template().getDTController().getTimer(playerId);
 
-        for (UUID uuid : combatTimerPvp.getRelatedTimers()) {
+        combatTimerPvp.leaveCombat();
+        combatTimerPvp.setEnemyReference(null);
+        damageTimer.leaveCombat();
+
+        for (UUID uuid : combatTimerPvp.getRelatedTimers((int) this.template.getCTController().getMinimumDeactivationDistance())) {
 
             CombatTimerPvp tmpTimer = (CombatTimerPvp) this.template().getCTController().getTimer(uuid);
 
-            tmpTimer.setEnemyReference(null);
-            tmpTimer.leaveCombat();
+            if(tmpTimer.getRelatedTimers().isEmpty()){
+                tmpTimer.setEnemyReference(null);
+                tmpTimer.leaveCombat();
+            }
         }
-
-        combatTimerPvp.leaveCombat();
-        damageTimer.leaveCombat();
-
     }
 }

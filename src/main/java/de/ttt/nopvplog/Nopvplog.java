@@ -1,10 +1,7 @@
 package de.ttt.nopvplog;
 
 import de.ttt.nopvplog.controllers.*;
-import de.ttt.nopvplog.listeners.BlockModificationDetector;
-import de.ttt.nopvplog.listeners.CombatDetector;
-import de.ttt.nopvplog.listeners.CrateBreakDetector;
-import de.ttt.nopvplog.listeners.PvPLogDetector;
+import de.ttt.nopvplog.listeners.*;
 import de.ttt.nopvplog.models.CombatTimerPvp;
 import de.ttt.nopvplog.models.DamageTimer;
 import de.ttt.nopvplog.models.Timer;
@@ -41,6 +38,7 @@ public final class Nopvplog extends NoPvPLogTemplate {
         Bukkit.getPluginManager().registerEvents(new CombatDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new CrateBreakDetector(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerDeathDetector(this), this);
 
         if (!blockModificationDuringCombat) {
             Bukkit.getPluginManager().registerEvents(new BlockModificationDetector(this), this);
