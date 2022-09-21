@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class TimerController<T extends EntityDamageEvent> {
@@ -123,5 +124,8 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     }
 
+    public List<Timer<T>> getAllTimers() {
+        return (List<Timer<T>>) this.timerHashMap.values();
+    }
 
 }

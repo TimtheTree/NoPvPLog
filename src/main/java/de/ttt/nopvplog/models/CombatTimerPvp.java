@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
@@ -30,7 +32,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
     public boolean isOutOfCombat() {
         boolean isOutOfCombat = timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
 
-        if(isOutOfCombat) {
+        if (isOutOfCombat) {
             this.setEnemyReference(null);
         }
 
@@ -69,5 +71,48 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         } else {
             setEnemyReference(event.getEntity().getUniqueId());
         }
+    }
+
+    /**
+     * @return A list of timers which have the owner of this timer as an enemy reference
+     */
+    public List<UUID> getRelatedTimers() {
+
+        ArrayList<UUID> result = new ArrayList<>();
+
+        for(Timer<? extends EntityDamageEvent> timer : this.getTimerController().getAllTimers()) {
+
+            if(timer instanceof CombatTimerPvp combatTimer
+            && combatTimer.getEnemyReference().equals(this.getPlayerReference())) {
+                result.add(combatTimer.getPlayerReference());
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @return A list of timers which have the owner of this timer as an enemy reference
+     */
+    public List<UUID> getRelatedTimers(int minimumDeactivationDistance) {
+
+        ArrayList<UUID> result = new ArrayList<>();
+        List<? extends Timer<? extends EntityDamageEvent>> input = this.getTimerController().getAllTimers();
+        input.remove(this);
+
+
+        for(Timer<? extends EntityDamageEvent> timer : input) {
+
+            if(timer instanceof CombatTimerPvp combatTimer
+                    && combatTimer.getEnemyReference().equals(this.getPlayerReference())) {
+
+                Player otherPlayer = Bukkit.getPlayer(combatTimer.getPlayerReference());
+                Player player = Bukkit.getPlayer(this.getPlayerReference());
+
+                if(otherPlayer != null && player != null && (otherPlayer.getLocation().distance(player.getLocation()) < minimumDeactivationDistance)){
+                    result.add(combatTimer.getPlayerReference());
+                }
+            }
+        }
+        return result;
     }
 }
