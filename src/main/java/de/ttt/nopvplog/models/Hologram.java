@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
@@ -51,10 +52,16 @@ public class Hologram {
 
     public static void removeHologram(UUID mASID, UUID sASID, World world) {
 
-        world.getEntity(mASID).remove();
+        Entity mainArmorStand = world.getEntity(mASID);
+        Entity secondArmorStand = world.getEntity(sASID);
 
-        world.getEntity(sASID).remove();
+        if(mainArmorStand != null) {
+            mainArmorStand.remove();
+        }
 
+        if(secondArmorStand != null) {
+            secondArmorStand.remove();
+        }
     }
 
     /**
