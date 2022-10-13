@@ -40,6 +40,7 @@ public final class NoPvPLog extends NoPvPLogTemplate {
         Bukkit.getPluginManager().registerEvents(new PvPLogDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new CrateBreakDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerDeathDetector(this), this);
+        Bukkit.getPluginManager().registerEvents(new ProjectileHitDetector(), this);
 
         if (!blockModificationDuringCombat) {
             Bukkit.getPluginManager().registerEvents(new BlockModificationDetector(this), this);
