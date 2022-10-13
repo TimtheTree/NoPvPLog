@@ -25,7 +25,7 @@ public record PlayerDeathDetector(NoPvPLogTemplate template) implements Listener
         DamageTimer damageTimer = (DamageTimer) this.template().getDTController().getTimer(playerId);
 
         combatTimerPvp.leaveCombat();
-        combatTimerPvp.setEnemyReference(null);
+        combatTimerPvp.addEnemyReference(null);
         damageTimer.leaveCombat();
 
         for (UUID uuid : combatTimerPvp.getRelatedTimers((int) this.template.getCTController().getMinimumDeactivationDistance())) {
@@ -33,7 +33,7 @@ public record PlayerDeathDetector(NoPvPLogTemplate template) implements Listener
             CombatTimerPvp tmpTimer = (CombatTimerPvp) this.template().getCTController().getTimer(uuid);
 
             if(tmpTimer.getRelatedTimers().isEmpty()){
-                tmpTimer.setEnemyReference(null);
+                tmpTimer.addEnemyReference(null);
                 tmpTimer.leaveCombat();
             }
         }

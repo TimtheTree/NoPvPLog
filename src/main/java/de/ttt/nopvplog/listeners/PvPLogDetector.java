@@ -81,7 +81,7 @@ public class PvPLogDetector implements Listener {
 
         if (timer instanceof CombatTimerPvp combatTimer) {
 
-            killer = Bukkit.getPlayer(combatTimer.getEnemyReference());
+            killer = Bukkit.getPlayer(combatTimer.getEnemyReferences());
             String killerName = "unknown";
 
             if (killer != null) {

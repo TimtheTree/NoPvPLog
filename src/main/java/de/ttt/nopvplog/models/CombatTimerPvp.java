@@ -6,24 +6,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
-    private UUID enemyReference;
+    private Set<UUID> enemyReference;
+    private HashMap<UUID, Long> lastDamageHashmap;
 
     public CombatTimerPvp(UUID playerReference, TimerController<? extends EntityDamageEvent> timerController) {
         super(playerReference, timerController);
     }
 
-    public UUID getEnemyReference() {
+    public Set<UUID> getEnemyReferences() {
         return enemyReference;
     }
 
-    public void setEnemyReference(UUID enemyReference) {
-        this.enemyReference = enemyReference;
+    public void addEnemyReference(UUID enemyReference) {
+        this.enemyReference.add(enemyReference);
+        this.lastDamageHashmap.put(enemyReference, System.currentTimeMillis());
     }
 
     /**
@@ -33,7 +33,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         boolean isOutOfCombat = timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
 
         if (isOutOfCombat) {
-            this.setEnemyReference(null);
+            this.enemyReference.clear();
         }
 
         return isOutOfCombat;
@@ -50,12 +50,29 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
                 || enemyReference == null) return Long.MAX_VALUE;
 
         Player player = Bukkit.getPlayer(playerReference);
-        Player enemy = Bukkit.getPlayer(enemyReference);
+        List<Player> enemyList = new ArrayList<>();
+
+        for (UUID uuid : enemyReference) {
+            Player enemy = Bukkit.getPlayer(uuid);
+            if (enemy != null) {
+                enemyList.add(enemy);
+            }
+        }
 
         if (player == null
-                || enemy == null) return Long.MAX_VALUE;
+                || enemyList.isEmpty()) return Long.MAX_VALUE;
 
-        return (long) player.getLocation().distance(enemy.getLocation());
+        long minDistance = Long.MAX_VALUE;
+
+        for (Player enemy : enemyList) {
+            long tempDistance = (long) player.getLocation().distance(enemy.getLocation());
+
+            if (tempDistance <= minDistance) {
+                minDistance = tempDistance;
+            }
+        }
+
+        return minDistance;
     }
 
     /**
@@ -67,9 +84,9 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         setLastDamage(System.currentTimeMillis());
 
         if (!event.getDamager().getUniqueId().equals(this.playerReference)) {
-            setEnemyReference(event.getDamager().getUniqueId());
+            addEnemyReference(event.getDamager().getUniqueId());
         } else {
-            setEnemyReference(event.getEntity().getUniqueId());
+            addEnemyReference(event.getEntity().getUniqueId());
         }
     }
 
@@ -80,10 +97,10 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
         ArrayList<UUID> result = new ArrayList<>();
 
-        for(Timer<? extends EntityDamageEvent> timer : this.getTimerController().getAllTimers()) {
+        for (Timer<? extends EntityDamageEvent> timer : this.getTimerController().getAllTimers()) {
 
-            if(timer instanceof CombatTimerPvp combatTimer
-            && combatTimer.getEnemyReference().equals(this.getPlayerReference())) {
+            if (timer instanceof CombatTimerPvp combatTimer
+                    && combatTimer.getEnemyReferences().contains(this.getPlayerReference())) {
                 result.add(combatTimer.getPlayerReference());
             }
         }
@@ -100,15 +117,15 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         input.remove(this);
 
 
-        for(Timer<? extends EntityDamageEvent> timer : input) {
+        for (Timer<? extends EntityDamageEvent> timer : input) {
 
-            if(timer instanceof CombatTimerPvp combatTimer
-                    && combatTimer.getEnemyReference().equals(this.getPlayerReference())) {
+            if (timer instanceof CombatTimerPvp combatTimer
+                    && combatTimer.getEnemyReferences().contains(this.getPlayerReference())) {
 
                 Player otherPlayer = Bukkit.getPlayer(combatTimer.getPlayerReference());
                 Player player = Bukkit.getPlayer(this.getPlayerReference());
 
-                if(otherPlayer != null && player != null && (otherPlayer.getLocation().distance(player.getLocation()) < minimumDeactivationDistance)){
+                if (otherPlayer != null && player != null && (otherPlayer.getLocation().distance(player.getLocation()) < minimumDeactivationDistance)) {
                     result.add(combatTimer.getPlayerReference());
                 }
             }
