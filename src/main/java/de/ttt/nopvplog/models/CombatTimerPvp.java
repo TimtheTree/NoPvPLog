@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
-    private Set<UUID> enemyReference;
+    private Set<UUID> enemyReferences;
     private HashMap<UUID, Long> lastDamageHashmap;
 
     public CombatTimerPvp(UUID playerReference, TimerController<? extends EntityDamageEvent> timerController) {
@@ -18,11 +18,11 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
     }
 
     public Set<UUID> getEnemyReferences() {
-        return enemyReference;
+        return enemyReferences;
     }
 
     public void addEnemyReference(UUID enemyReference) {
-        this.enemyReference.add(enemyReference);
+        this.enemyReferences.add(enemyReference);
         this.lastDamageHashmap.put(enemyReference, System.currentTimeMillis());
     }
 
@@ -33,7 +33,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         boolean isOutOfCombat = timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
 
         if (isOutOfCombat) {
-            this.enemyReference.clear();
+            this.enemyReferences.clear();
         }
 
         return isOutOfCombat;
@@ -47,12 +47,12 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
     public long playerEnemyDistance() {
 
         if (playerReference == null
-                || enemyReference == null) return Long.MAX_VALUE;
+                || enemyReferences == null) return Long.MAX_VALUE;
 
         Player player = Bukkit.getPlayer(playerReference);
         List<Player> enemyList = new ArrayList<>();
 
-        for (UUID uuid : enemyReference) {
+        for (UUID uuid : enemyReferences) {
             Player enemy = Bukkit.getPlayer(uuid);
             if (enemy != null) {
                 enemyList.add(enemy);
@@ -131,5 +131,19 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
             }
         }
         return result;
+    }
+
+    public UUID lastDamager() {
+
+        UUID lastDamager = null;
+
+        for (UUID damager : enemyReferences) {
+            long tempDamage = lastDamageHashmap.get(damager);
+            if (tempDamage == lastDamage){
+                lastDamager = damager;
+            }
+        }
+
+        return lastDamager;
     }
 }
