@@ -76,6 +76,7 @@ public class Hologram {
         mainTextAS.setCustomName(textColor + name + text);
         mainTextAS.setCustomNameVisible(true);
         mainTextAS.setVisible(false);
+        mainTextAS.setCollidable(false);
     }
 
     /**

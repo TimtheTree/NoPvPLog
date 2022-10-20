@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
-    private Set<UUID> enemyReferences;
+    private final Set<UUID> enemyReferences = new HashSet<>();
     private HashMap<UUID, Long> lastDamageHashmap;
 
     public CombatTimerPvp(UUID playerReference, TimerController<? extends EntityDamageEvent> timerController) {
@@ -26,6 +26,10 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         this.lastDamageHashmap.put(enemyReference, System.currentTimeMillis());
     }
 
+    public void clearEnemyReferences() {
+        this.enemyReferences.clear();
+    }
+
     /**
      * @return true if the combat timer is over AND the enemy players distance is greater than the minimum deactivation distance
      */
@@ -33,7 +37,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         boolean isOutOfCombat = timePassed() > this.getTimerDuration() && playerEnemyDistance() > this.getMinimumDeactivationDistance();
 
         if (isOutOfCombat) {
-            this.enemyReferences.clear();
+            clearEnemyReferences();
         }
 
         return isOutOfCombat;
@@ -130,6 +134,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
                 }
             }
         }
+        System.out.println(result);
         return result;
     }
 

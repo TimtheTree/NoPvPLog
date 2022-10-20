@@ -9,9 +9,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class TimerController<T extends EntityDamageEvent> {
 
@@ -29,8 +27,6 @@ public abstract class TimerController<T extends EntityDamageEvent> {
         this.timerHashMap = new HashMap<>();
         this.timerDuration = template.getConfig().getInt(timerPath);
         this.minimumDeactivationDistance = template.getConfig().getInt("MinimumDeactivationDistancePvP");
-
-        addAllPlayers();
     }
 
     /**
@@ -125,7 +121,7 @@ public abstract class TimerController<T extends EntityDamageEvent> {
     }
 
     public List<Timer<T>> getAllTimers() {
-        return (List<Timer<T>>) this.timerHashMap.values();
+        return new ArrayList<>(this.timerHashMap.values());
     }
 
 }

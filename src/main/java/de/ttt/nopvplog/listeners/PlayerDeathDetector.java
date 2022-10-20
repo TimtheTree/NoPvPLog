@@ -3,6 +3,7 @@ package de.ttt.nopvplog.listeners;
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import de.ttt.nopvplog.models.CombatTimerPvp;
 import de.ttt.nopvplog.models.DamageTimer;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -24,16 +25,18 @@ public record PlayerDeathDetector(NoPvPLogTemplate template) implements Listener
         CombatTimerPvp combatTimerPvp = (CombatTimerPvp) this.template().getCTController().getTimer(playerId);
         DamageTimer damageTimer = (DamageTimer) this.template().getDTController().getTimer(playerId);
 
-        combatTimerPvp.leaveCombat();
-        combatTimerPvp.addEnemyReference(null);
-        damageTimer.leaveCombat();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(template, ()->{
+            combatTimerPvp.leaveCombat();
+            damageTimer.leaveCombat();
+            combatTimerPvp.clearEnemyReferences();
+            }, 1);
 
         for (UUID uuid : combatTimerPvp.getRelatedTimers((int) this.template.getCTController().getMinimumDeactivationDistance())) {
 
             CombatTimerPvp tmpTimer = (CombatTimerPvp) this.template().getCTController().getTimer(uuid);
 
             if(tmpTimer.getRelatedTimers().isEmpty()){
-                tmpTimer.addEnemyReference(null);
+                tmpTimer.clearEnemyReferences();
                 tmpTimer.leaveCombat();
             }
         }
