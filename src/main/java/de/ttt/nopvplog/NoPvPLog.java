@@ -8,6 +8,7 @@ import de.ttt.nopvplog.models.DamageTimer;
 import de.ttt.nopvplog.models.Timer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.io.File;
@@ -41,6 +42,7 @@ public final class NoPvPLog extends NoPvPLogTemplate {
         Bukkit.getPluginManager().registerEvents(new CrateBreakDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerDeathDetector(this), this);
         Bukkit.getPluginManager().registerEvents(new ProjectileHitDetector(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinDetector(this), this);
 
         if (!blockModificationDuringCombat) {
             Bukkit.getPluginManager().registerEvents(new BlockModificationDetector(this), this);
@@ -49,6 +51,8 @@ public final class NoPvPLog extends NoPvPLogTemplate {
         this.getCommand("combatremove").setExecutor(new CombatRemoveCommand(this));
 
         this.actionBarController.runUpdateTimer();
+
+        leaveCombatOnStartUp();
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Enabled NoPvPLog");
     }
@@ -103,5 +107,15 @@ public final class NoPvPLog extends NoPvPLogTemplate {
         } else {
             return damageTimer;
         }
+    }
+
+    private void leaveCombatOnStartUp() {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                UUID playerId = player.getUniqueId();
+                getCTController().getTimer(playerId).leaveCombat();
+                getDTController().getTimer(playerId).leaveCombat();
+            }
+        }, 5);
     }
 }

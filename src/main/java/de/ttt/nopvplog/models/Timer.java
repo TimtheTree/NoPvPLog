@@ -69,7 +69,7 @@ public abstract class Timer<T extends EntityDamageEvent> {
      * Makes the timer leave combat, sets the time back by the exact amount needed for it not to be considered combat anymore
      */
     public void leaveCombat() {
-        this.setLastDamage(System.currentTimeMillis() - this.getTimerController().getTimerDuration() * 1000);
+        this.setLastDamage(0);
     }
 
     public abstract boolean isOutOfCombat();
