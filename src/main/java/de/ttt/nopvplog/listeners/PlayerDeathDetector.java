@@ -35,7 +35,7 @@ public record PlayerDeathDetector(NoPvPLogTemplate template) implements Listener
 
             CombatTimerPvp tmpTimer = (CombatTimerPvp) this.template().getCTController().getTimer(uuid);
 
-            if(tmpTimer.getRelatedTimers().isEmpty()){
+            if(!tmpTimer.getRelatedTimers().isEmpty()){
                 tmpTimer.clearEnemyReferences();
                 tmpTimer.leaveCombat();
             }

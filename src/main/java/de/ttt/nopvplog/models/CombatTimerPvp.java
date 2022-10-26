@@ -11,7 +11,7 @@ import java.util.*;
 public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
     private final Set<UUID> enemyReferences = new HashSet<>();
-    private HashMap<UUID, Long> lastDamageHashmap;
+    private final HashMap<UUID, Long> lastDamageHashmap = new HashMap<>();
 
     public CombatTimerPvp(UUID playerReference, TimerController<? extends EntityDamageEvent> timerController) {
         super(playerReference, timerController);
@@ -134,7 +134,6 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
                 }
             }
         }
-        System.out.println(result);
         return result;
     }
 
@@ -144,7 +143,7 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
         for (UUID damager : enemyReferences) {
             long tempDamage = lastDamageHashmap.get(damager);
-            if (tempDamage == lastDamage){
+            if (tempDamage == lastDamage) {
                 lastDamager = damager;
             }
         }
