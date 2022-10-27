@@ -62,6 +62,9 @@ public final class NoPvPLog extends NoPvPLogTemplate {
         // Plugin shutdown logic
     }
 
+    /**
+     * gets the file config.yml or gets it if it doesn't exist
+     */
     private void makeFiles() {
 
         File configF = new File(getDataFolder(), "config.yml");
@@ -109,6 +112,9 @@ public final class NoPvPLog extends NoPvPLogTemplate {
         }
     }
 
+    /**
+     * makes sure that all players aren't in combat as the plugin is started
+     */
     private void leaveCombatOnStartUp() {
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {

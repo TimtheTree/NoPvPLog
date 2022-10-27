@@ -10,6 +10,10 @@ public class LocationWrapper {
         this.location = location;
     }
 
+    /**adds a custom format for locations
+     *
+     * @return custom Location
+     */
     @Override
     public String toString() {
         return this.location.getWorld().getName() + ": " +
