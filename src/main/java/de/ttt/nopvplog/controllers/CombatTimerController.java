@@ -15,6 +15,10 @@ public class CombatTimerController extends TimerController<EntityDamageByEntityE
         super(template, "CombatTimerDuration");
     }
 
+    /**adds a player to the timerHashMap
+     *
+     * @param playerId the player to add
+     */
     @Override
     public void addEntry(UUID playerId) {
         this.timerHashMap.put(playerId, new CombatTimerPvp(playerId, this));

@@ -20,6 +20,14 @@ public class CombatRemoveCommand implements TabExecutor {
         this.template = template;
     }
 
+    /**removes combat from the given player as the command is executed
+     *
+     * @param sender  Source of the command
+     * @param command Command which was executed
+     * @param label   Alias of the command which was used
+     * @param args    Passed command arguments
+     * @return boolean that is used to check if the command worked
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player && sender.isOp() && args.length == 1) {
@@ -33,6 +41,17 @@ public class CombatRemoveCommand implements TabExecutor {
         else return false;
     }
 
+    /**is used to complete the command in the commandline
+     *
+     * @param sender  Source of the command.  For players tab-completing a
+     *                command inside of a command block, this will be the player, not
+     *                the command block.
+     * @param command Command which was executed
+     * @param label   Alias of the command which was used
+     * @param args    The arguments passed to the command, including final
+     *                partial argument to be completed
+     * @return an ArrayList to complete the command in the commandline
+     */
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         return new ArrayList<>();

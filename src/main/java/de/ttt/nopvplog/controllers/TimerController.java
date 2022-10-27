@@ -107,6 +107,10 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     public abstract void updateEntry(T event);
 
+    /**updates the timer and if nonexistent adds a timer for the given playerId
+     *
+     * @param playerId the UUID of the Player for which the Timer should be updated
+     */
     public void updateTimer(UUID playerId) {
 
         Timer timer = getTimer(playerId);
@@ -120,6 +124,10 @@ public abstract class TimerController<T extends EntityDamageEvent> {
 
     }
 
+    /**gets all timers in timerHashmap
+     *
+     * @return an ArrayList with all values of timerHashMap
+     */
     public List<Timer<T>> getAllTimers() {
         return new ArrayList<>(this.timerHashMap.values());
     }

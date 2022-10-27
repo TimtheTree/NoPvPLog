@@ -30,6 +30,10 @@ public class HologramController {
         return template;
     }
 
+    /**combines the UUIDs of the two armorstands used for the hologram
+     *
+     * @return an Array of armorstand UUIDS
+     */
     private UUID[] getHologramId() {
         UUID[] array = new UUID[2];
         array[0] = hologram.getMainTextASUUID();
@@ -56,6 +60,12 @@ public class HologramController {
         }
     }
 
+    /**
+     * removes a hologram with the given uuids of the armorstand (usually taken out of hologramId)
+     *
+     * @param uuids the uuids of the armorstands making up the hologram
+     * @param event event that triggers when a block is broken
+     */
     public void removeHologram(UUID[] uuids, BlockBreakEvent event) {
         UUID mASID = uuids[0];
         UUID sASID = uuids[1];
