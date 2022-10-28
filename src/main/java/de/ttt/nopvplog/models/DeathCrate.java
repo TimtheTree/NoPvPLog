@@ -47,6 +47,11 @@ public class DeathCrate {
         return owner;
     }
 
+    /**creates a deathcrate which is two of the given containertypes on top of each other
+     *
+     * @param location location where the player combat logged
+     * @param containerType the type the container of the deathcrate should be
+     */
     public void createCrates(Location location, Material containerType) {
 
         Block blockBottom = location.getWorld().getBlockAt(location);

@@ -61,6 +61,9 @@ public abstract class Timer<T extends EntityDamageEvent> {
         return (System.currentTimeMillis() - this.lastDamage) / 1000;
     }
 
+    /**
+     * @return time left on the timer in seconds
+     */
     public long timeLeftOnTimer() {
         return this.timerController.getTimeLeft(this.playerReference);
     }

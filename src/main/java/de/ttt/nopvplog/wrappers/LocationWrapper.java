@@ -12,7 +12,7 @@ public class LocationWrapper {
 
     /**adds a custom format for locations
      *
-     * @return custom Location
+     * @return custom Location Format
      */
     @Override
     public String toString() {

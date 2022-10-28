@@ -21,6 +21,9 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         return enemyReferences;
     }
 
+    /**adds the given UUID to enemyReferences and also puts it into the lastDamageHashmap with the current Time in milli seconds
+     * @param enemyReference UUID of the enemy
+     */
     public void addEnemyReference(UUID enemyReference) {
         this.enemyReferences.add(enemyReference);
         this.lastDamageHashmap.put(enemyReference, System.currentTimeMillis());
@@ -137,6 +140,9 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
         return result;
     }
 
+    /**
+     * @return the person whon last damaged the player owning this timer
+     */
     public UUID lastDamager() {
 
         UUID lastDamager = null;

@@ -12,8 +12,6 @@ import java.util.UUID;
 
 public class Hologram {
 
-    //TODO add despawning to armorstands
-
     private final String name;
     private final Location location;
     private ArmorStand mainTextAS;
@@ -24,6 +22,12 @@ public class Hologram {
         this.location = event.getPlayer().getLocation();
     }
 
+    /**removes the hologram
+     *
+     * @param mASID UUID of the mainArmorstand of the hologram
+     * @param sASID UUID of the secondaryArmorstand of the hologram
+     * @param world the world the hologram is located in
+     */
     public static void removeHologram(UUID mASID, UUID sASID, World world) {
 
         Entity mainArmorStand = world.getEntity(mASID);
@@ -38,10 +42,16 @@ public class Hologram {
         }
     }
 
+    /**
+     * @return the UUID of the Armorstand of the hologram containing the main text
+     */
     public @NotNull UUID getMainTextASUUID() {
         return mainTextAS.getUniqueId();
     }
 
+    /**
+     * @return the UUID of the Armorstand of the hologram containing the secondary text
+     */
     public @NotNull UUID getSecondTextASUUID() {
         return secondTextAS.getUniqueId();
     }
