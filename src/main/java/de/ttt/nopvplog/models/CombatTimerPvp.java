@@ -156,4 +156,10 @@ public class CombatTimerPvp extends Timer<EntityDamageByEntityEvent> {
 
         return lastDamager;
     }
+
+    @Override
+    public void leaveCombat() {
+        this.setLastDamage(0);
+        clearEnemyReferences();
+    }
 }
