@@ -17,6 +17,10 @@ public class CrateBreakDetector implements Listener {
         this.template = template;
     }
 
+    /**removes a hologram as part of a crate is broken
+     *
+     * @param event Blockbreak event
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
 

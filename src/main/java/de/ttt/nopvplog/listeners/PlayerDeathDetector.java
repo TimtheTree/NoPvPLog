@@ -13,10 +13,12 @@ import java.util.UUID;
 
 public record PlayerDeathDetector(NoPvPLogTemplate template) implements Listener {
 
+    /**removes combat from dead player and the killer
+     *
+     * @param event PlayerDeathEvent
+     */
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent event) {
-
-        //IDEE: nur enemy reference unsetten wenn der Timer danach keine timer mehr hat mit denen er in combat wäre
 
         if (event.isCancelled()) return;
 

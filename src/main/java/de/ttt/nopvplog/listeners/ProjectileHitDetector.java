@@ -10,6 +10,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class ProjectileHitDetector implements Listener {
 
+    /**checks if a projectile hit a player and puts him into combat and if the shooter was a player as well aslo puts him into combat
+     *
+     * @param event EntityDamageByEntityEvent
+     */
     @EventHandler
     public void onProjectileShoot(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player player

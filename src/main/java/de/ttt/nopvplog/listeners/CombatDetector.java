@@ -2,13 +2,10 @@ package de.ttt.nopvplog.listeners;
 
 import de.ttt.nopvplog.NoPvPLogTemplate;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-
-import java.util.HashMap;
 
 public class CombatDetector implements Listener {
 
