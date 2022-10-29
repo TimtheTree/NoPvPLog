@@ -12,7 +12,8 @@ import java.util.UUID;
 
 public class ActionBarController {
 
-    private final String taggedMessage;
+    private final String timerMessage;
+    private final String enemyMessage;
     private final HashMap<UUID, CombatTimerMessage> actionBarMap = new HashMap<>();
     private final int updateDelay;
     private final NoPvPLogTemplate template;
@@ -20,7 +21,8 @@ public class ActionBarController {
     public ActionBarController(int updateDelay, NoPvPLogTemplate template) {
         this.updateDelay = updateDelay;
         this.template = template;
-        taggedMessage = this.template.getConfig().getString("ActionBarMessage");
+        timerMessage = this.template.getConfig().getString("ActionBarTimerMessage");
+        enemyMessage = this.template.getConfig().getString("ActionBarEnemyMessage");
     }
 
     private void updateAllBars() {
@@ -35,7 +37,7 @@ public class ActionBarController {
                 continue;
             }
 
-            message.display(timer.timeLeftOnTimer());
+            message.display(timer.timeLeftOnTimer(), !timer.isOutOfCombat(), timer.getMinimumDeactivationDistance());
         }
     }
 
@@ -47,7 +49,7 @@ public class ActionBarController {
     private CombatTimerMessage getMessage(UUID playerId) {
 
         if (this.actionBarMap.get(playerId) == null) {
-            this.actionBarMap.put(playerId, new CombatTimerMessage(this.taggedMessage, playerId));
+            this.actionBarMap.put(playerId, new CombatTimerMessage(this.timerMessage, enemyMessage,playerId));
         }
 
         return this.actionBarMap.get(playerId);

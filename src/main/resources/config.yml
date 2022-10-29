@@ -1,4 +1,5 @@
-ActionBarMessage: "You are in combat for %time%"
+ActionBarTimerMessage: "You are in combat for %time%"
+ActionBarEnemyMessage: "There are players nearby! Get %deactivationDistance% blocks away from them to get out of combat"
 GeneralTimerDuration: 20
 CombatTimerDuration: 60
 MinimumDeactivationDistancePvP: 50
