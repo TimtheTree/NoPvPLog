@@ -81,9 +81,11 @@ public class Hologram {
     private void createMainText(Location location, String name, ChatColor textColor, String text) {
         mainTextAS = location.getWorld().spawn(location.toCenterLocation().add(0, 0.1, 0), ArmorStand.class);
 
+        String txt = text.replace("%player%",name);
+
         mainTextAS.setGravity(false);
         mainTextAS.setCanPickupItems(false);
-        mainTextAS.setCustomName(textColor + name + text);
+        mainTextAS.setCustomName(textColor + txt);
         mainTextAS.setCustomNameVisible(true);
         mainTextAS.setVisible(false);
         mainTextAS.setCollidable(false);

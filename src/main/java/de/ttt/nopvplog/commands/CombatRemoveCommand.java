@@ -6,12 +6,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CombatRemoveCommand implements TabExecutor {
     private NoPvPLogTemplate template;
@@ -20,7 +20,8 @@ public class CombatRemoveCommand implements TabExecutor {
         this.template = template;
     }
 
-    /**removes combat from the given player as the command is executed
+    /**
+     * removes combat from the given player as the command is executed
      *
      * @param sender  Source of the command
      * @param command Command which was executed
@@ -30,18 +31,28 @@ public class CombatRemoveCommand implements TabExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.isOp() && args.length == 1) {
-            UUID playerId = Bukkit.getPlayer(args[0]).getUniqueId();
+        if (sender instanceof Player && sender.isOp()) {
+            UUID playerId = null;
+            switch (args.length) {
+                case 1:
+                    playerId = Bukkit.getPlayer(args[0]).getUniqueId();
+                    break;
+                case 0:
+                    playerId = ((Player) sender).getUniqueId();
+                    break;
+                default:
+                    return false;
+            }
 
             template.getCTController().getTimer(playerId).leaveCombat();
             template.getDTController().getTimer(playerId).leaveCombat();
 
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
-    /**is used to complete the command in the commandline
+    /**
+     * is used to complete the command in the commandline
      *
      * @param sender  Source of the command.  For players tab-completing a
      *                command inside of a command block, this will be the player, not
@@ -54,6 +65,7 @@ public class CombatRemoveCommand implements TabExecutor {
      */
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return new ArrayList<>();
+        if (args.length == 1) return null;
+        else return new ArrayList<>();
     }
 }
