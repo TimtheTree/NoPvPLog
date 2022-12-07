@@ -63,7 +63,7 @@ public final class NoPvPLog extends NoPvPLogTemplate {
     }
 
     /**
-     * gets the file config.yml or gets it if it doesn't exist
+     * gets the file config.yml or creates it if it doesn't exist
      */
     private void makeFiles() {
 
